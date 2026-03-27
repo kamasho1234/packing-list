@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>旅行持ち物リストメーカー</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #b8860b;
+      --gold-light: #f5e6c8;
+      --gold-subtle: rgba(184,134,11,0.08);
+      --accent: #1a1a2e;
+      --accent-light: #16213e;
+      --navy: #0f172a;
+      --slate: #334155;
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      --rose: #be123c;
+      --rose-light: #fff1f2;
+      --sand: #faf8f5;
+      --cream: #f7f3ed;
+      --white: #ffffff;
+      --gray-50: #fafaf9;
+      --gray-100: #f5f5f4;
+      --gray-200: #e7e5e4;
+      --gray-300: #d6d3d1;
+      --gray-400: #a8a29e;
+      --gray-500: #78716c;
+      --gray-600: #57534e;
+      --gray-700: #44403c;
+      --gray-800: #292524;
+      --gray-900: #1c1917;
+      --radius: 16px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow: 0 2px 12px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 400;
+      background: var(--sand);
+      min-height: 100vh;
+      color: var(--gray-800);
+      letter-spacing: 0.02em;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .serif { font-family: 'Cormorant Garamond', 'Georgia', serif; }
+
+    .app-container {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    /* ─── Header ─── */
+    .app-header {
+      text-align: center;
+      padding: 48px 0 12px;
+    }
+    .app-header .logo-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .app-header .logo-icon {
+      width: 40px; height: 40px;
+      background: var(--navy);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      line-height: 1;
+      overflow: hidden;
+    }
+    .app-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 2px;
+    }
+    .app-header .tagline {
+      font-size: 0.82rem;
+      color: var(--gray-500);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-top: 6px;
+    }
+    .header-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      margin: 16px auto 32px;
+    }
+
+    /* ─── Card ─── */
+    .card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 20px;
+      animation: fadeUp 0.5s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      margin-bottom: 20px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    /* ─── Travel Type Image Cards ─── */
+    .type-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .type-card {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+      aspect-ratio: 3 / 4;
+    }
+    .type-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .type-card.active {
+      border-color: var(--gold);
+      box-shadow: 0 8px 30px rgba(184,134,11,0.2);
+    }
+    .type-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .type-card:hover .type-card-img { transform: scale(1.08); }
+    .type-card-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 14px 14px;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+      color: white;
+    }
+    .type-card-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .type-card-sub {
+      font-size: 0.68rem;
+      opacity: 0.8;
+      margin-top: 2px;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+    .type-card-check {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 28px; height: 28px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .type-card.active .type-card-check { display: flex; }
+
+    /* ─── Setup Grid ─── */
+    .setup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .setup-grid .full-width { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      margin-bottom: 6px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      transition: all 0.3s;
+      background: var(--white);
+      color: var(--gray-800);
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,134,11,0.12);
+    }
+    input::placeholder { color: var(--gray-400); font-weight: 300; }
+
+    /* ─── Buttons ─── */
+    .btn {
+      padding: 11px 22px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.5px;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--navy);
+      color: white;
+    }
+    .btn-primary:hover { background: #111827; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .btn-gold {
+      background: linear-gradient(135deg, #b8860b, #d4a520);
+      color: white;
+      box-shadow: 0 4px 15px rgba(184,134,11,0.25);
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(184,134,11,0.35); }
+    .btn-success {
+      background: var(--teal);
+      color: white;
+    }
+    .btn-success:hover { background: #0f766e; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--gray-600);
+      border: 1.5px solid var(--gray-200);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-danger {
+      background: var(--rose);
+      color: white;
+    }
+    .btn-sm { padding: 7px 14px; font-size: 0.78rem; border-radius: 8px; }
+
+    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .generate-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 0.95rem;
+      margin-top: 12px;
+      border-radius: 12px;
+      letter-spacing: 2px;
+    }
+
+    /* ─── Weather Banner ─── */
+    .weather-banner {
+      display: none;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 24px;
+      border-radius: var(--radius);
+      background: var(--navy);
+      color: white;
+      margin-bottom: 20px;
+      animation: fadeUp 0.5s ease;
+    }
+    .weather-banner.visible { display: flex; }
+    .weather-icon { font-size: 2.8rem; }
+    .weather-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .weather-info p { font-size: 0.82rem; opacity: 0.7; margin-top: 3px; font-weight: 300; }
+    .weather-suggestion {
+      margin-left: auto;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.8rem;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: all 0.3s;
+      letter-spacing: 0.5px;
+    }
+    .weather-suggestion:hover { background: rgba(255,255,255,0.2); }
+
+    /* ─── Progress ─── */
+    .progress-section { display: none; margin-bottom: 20px; animation: fadeUp 0.5s ease; }
+    .progress-section.visible { display: block; }
+    .progress-card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius);
+      padding: 22px 28px;
+      box-shadow: var(--shadow);
+    }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .progress-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--navy);
+    }
+    .progress-count {
+      font-size: 0.78rem;
+      color: var(--gray-400);
+      font-weight: 500;
+    }
+    .progress-bar {
+      height: 6px;
+      background: var(--gray-100);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), #d4a520);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    /* ─── Checklist ─── */
+    .checklist-section { display: none; }
+    .checklist-section.visible { display: block; }
+
+    .category-group { margin-bottom: 20px; }
+    .category-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--cream);
+      border-radius: 10px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+    .category-header:hover { background: var(--gold-light); }
+    .category-name {
+      font-weight: 600;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gray-700);
+    }
+    .category-name .cat-icon { font-size: 1.2rem; }
+    .category-count {
+      font-size: 0.72rem;
+      color: var(--gold);
+      background: var(--gold-subtle);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .item-row:hover { background: var(--gray-50); }
+
+    .item-checkbox {
+      width: 22px; height: 22px;
+      border: 2px solid var(--gray-300);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s;
+      background: white;
+    }
+    .item-row.checked .item-checkbox {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+    .item-row.checked .item-checkbox::after {
+      content: '✓';
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .item-row.checked .item-name {
+      text-decoration: line-through;
+      color: var(--gray-400);
+    }
+
+    .item-name {
+      flex: 1;
+      font-size: 0.9rem;
+      color: var(--gray-700);
+      font-weight: 400;
+    }
+
+    .item-badge {
+      font-size: 0.65rem;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .badge-essential {
+      background: var(--rose-light);
+      color: var(--rose);
+      border: 1px solid rgba(190,18,60,0.15);
+    }
+    .badge-weather {
+      background: var(--teal-light);
+      color: var(--teal);
+      border: 1px solid rgba(13,148,136,0.15);
+    }
+
+    .item-delete {
+      opacity: 0;
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 4px;
+      transition: all 0.2s;
+      border-radius: 6px;
+    }
+    .item-row:hover .item-delete { opacity: 1; }
+    .item-delete:hover { color: var(--rose); }
+
+    /* Add Item */
+    .add-item-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--gray-100);
+    }
+    .add-item-row input { flex: 1; padding: 10px 14px; font-size: 0.88rem; }
+    .add-item-row select { width: auto; padding: 10px 14px; font-size: 0.85rem; }
+
+    /* ─── Saved Lists ─── */
+    .saved-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .saved-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    .saved-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      transition: all 0.3s;
+      background: var(--white);
+    }
+    .saved-list-item:hover {
+      border-color: var(--gold);
+      box-shadow: var(--shadow);
+    }
+    .saved-list-info { cursor: pointer; flex: 1; }
+    .saved-list-name { font-weight: 600; font-size: 0.92rem; color: var(--gray-800); }
+    .saved-list-meta {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      margin-top: 3px;
+      font-weight: 400;
+    }
+    .saved-list-actions { display: flex; gap: 6px; }
+
+    .empty-state {
+      text-align: center;
+      padding: 36px 20px;
+      color: var(--gray-400);
+    }
+    .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5; }
+    .empty-state p { font-size: 0.85rem; line-height: 1.7; font-weight: 300; }
+
+    /* ─── Modal ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15,23,42,0.5);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.visible { display: flex; }
+    .modal {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: fadeUp 0.4s ease;
+    }
+    .modal h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+    .modal textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 14px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      resize: vertical;
+      color: var(--gray-700);
+    }
+    .modal textarea:focus { outline: none; border-color: var(--gold); }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--navy);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      z-index: 2000;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      letter-spacing: 0.5px;
+    }
+    .toast.visible { transform: translateX(-50%) translateY(0); }
+
+    /* Confetti */
+    .confetti-container {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 3000; overflow: hidden;
+    }
+    .confetti {
+      position: absolute;
+      width: 8px; height: 8px;
+      animation: confettiFall 3s ease-in forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ─── App Share (Bottom) ─── */
+    .app-share-section {
+      margin-top: 32px;
+      margin-bottom: 8px;
+    }
+    .app-share-inner {
+      text-align: center;
+      padding: 28px 24px;
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .app-share-text {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 16px;
+    }
+    .app-share-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sns-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      letter-spacing: 0.3px;
+    }
+    .sns-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .sns-pill:active { transform: scale(0.96); }
+    .sns-pill.sns-line { background: #06c755; }
+    .sns-pill.sns-x { background: #000; }
+    .sns-pill.sns-facebook { background: #1877f2; }
+
+    @media (max-width: 640px) {
+      .app-share-section { margin-top: 24px; }
+      .app-share-inner { padding: 22px 16px; }
+      .app-share-text { font-size: 0.82rem; margin-bottom: 14px; }
+      .app-share-buttons { gap: 8px; }
+      .sns-pill { padding: 10px 18px; font-size: 0.78rem; gap: 6px; flex: 1; justify-content: center; }
+      .sns-pill svg { width: 16px; height: 16px; }
+    }
+
+    /* ─── SNS Share ─── */
+    .sns-share-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .sns-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 8px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: white;
+      transition: all 0.3s;
+      letter-spacing: 0.3px;
+    }
+    .sns-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .sns-btn:active { transform: scale(0.96); }
+    .sns-line { background: #06c755; }
+    .sns-x { background: #000000; }
+    .sns-facebook { background: #1877f2; }
+    .sns-clipboard { background: var(--navy); }
+
+    @media (max-width: 640px) {
+      .sns-share-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+      .sns-btn { padding: 12px 6px; font-size: 0.65rem; border-radius: 10px; }
+      .sns-btn svg { width: 18px; height: 18px; }
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 4px;
+      z-index: 10;
+    }
+    .lang-btn {
+      padding: 5px 12px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--gray-500);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      letter-spacing: 0.5px;
+    }
+    .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .lang-btn.active {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+
+    /* Footer */
+    .app-footer {
+      text-align: center;
+      padding: 40px 0 24px;
+      font-size: 0.72rem;
+      color: var(--gray-400);
+      letter-spacing: 2px;
+      font-weight: 300;
+    }
+
+    /* ─── Responsive ─── */
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      .app-header { padding: 36px 0 10px; }
+      .app-header h1 { font-size: 1.8rem; letter-spacing: 1px; }
+      .header-divider { margin: 12px auto 24px; }
+      .type-card-label { font-size: 1rem; }
+    }
+
+    /* Smartphone */
+    @media (max-width: 640px) {
+      .app-container { padding: 10px; }
+      .app-header { padding: 44px 0 6px; }
+      .app-header .logo-icon { width: 32px; height: 32px; font-size: 1rem; border-radius: 8px; }
+      .app-header .logo-line { margin-bottom: 4px; }
+      .app-header h1 { font-size: 1.4rem; letter-spacing: 0.5px; }
+      .app-header .tagline { font-size: 0.72rem; letter-spacing: 2px; }
+      .header-divider { margin: 10px auto 18px; width: 40px; }
+      .card { padding: 16px; border-radius: 14px; margin-bottom: 12px; }
+      .card-title { font-size: 0.72rem; letter-spacing: 2px; margin-bottom: 14px; }
+
+      /* Type cards: 2x2 grid, square */
+      .type-selector { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .type-card { aspect-ratio: 4 / 3; border-radius: 12px; }
+      .type-card-overlay { padding: 12px 10px 10px; }
+      .type-card-label { font-size: 0.88rem; }
+      .type-card-check { width: 24px; height: 24px; font-size: 12px; top: 8px; right: 8px; }
+
+      .setup-grid { grid-template-columns: 1fr; gap: 12px; }
+      label { font-size: 0.68rem; }
+      input, select { padding: 10px 14px; font-size: 0.88rem; border-radius: 10px; }
+
+      .generate-btn { padding: 14px; font-size: 0.9rem; border-radius: 12px; margin-top: 10px; }
+
+      /* Weather banner */
+      .weather-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 16px;
+        gap: 10px;
+        border-radius: 14px;
+      }
+      .weather-icon { font-size: 2.2rem; }
+      .weather-info h3 { font-size: 0.92rem; }
+      .weather-suggestion { margin-left: 0; width: 100%; text-align: center; padding: 10px; }
+
+      /* Progress */
+      .progress-card { padding: 16px 18px; border-radius: 14px; }
+      .progress-text { font-size: 1rem; }
+      .progress-count { font-size: 0.72rem; }
+
+      /* Checklist */
+      .category-header { padding: 10px 12px; border-radius: 10px; }
+      .category-name { font-size: 0.85rem; gap: 6px; }
+      .category-name .cat-icon { font-size: 1.1rem; }
+      .category-count { font-size: 0.68rem; padding: 2px 10px; }
+      .item-row { padding: 9px 10px; gap: 10px; border-radius: 10px; }
+      .item-checkbox { width: 20px; height: 20px; border-radius: 6px; }
+      .item-name { font-size: 0.85rem; }
+      .item-badge { font-size: 0.6rem; padding: 2px 8px; }
+      .item-delete { opacity: 0.5; font-size: 1rem; }
+
+      .add-item-row { flex-wrap: wrap; gap: 8px; }
+      .add-item-row input { flex: 1 1 100%; }
+      .add-item-row select { flex: 1; }
+      .add-item-row .btn { flex: 0 0 auto; }
+
+      /* Buttons */
+      .btn-group { flex-direction: row; }
+      .btn-group .btn { flex: 1; justify-content: center; }
+      .btn-sm { padding: 8px 10px; font-size: 0.75rem; }
+
+      /* Saved lists */
+      .saved-section-title { font-size: 1.1rem; }
+      .saved-list-item { padding: 12px 14px; border-radius: 12px; flex-wrap: wrap; gap: 10px; }
+      .saved-list-name { font-size: 0.88rem; }
+      .saved-list-meta { font-size: 0.7rem; }
+      .saved-list-actions { width: 100%; }
+      .saved-list-actions .btn { flex: 1; justify-content: center; }
+
+      /* Language switcher */
+      .lang-switcher { top: 12px; right: 10px; gap: 3px; }
+      .lang-btn { padding: 4px 8px; font-size: 0.65rem; border-radius: 6px; }
+
+      /* Modal */
+      .modal { padding: 20px; border-radius: 14px; }
+      .modal h3 { font-size: 1.1rem; }
+      .modal textarea { min-height: 160px; font-size: 0.8rem; }
+
+      /* Toast */
+      .toast { padding: 12px 20px; font-size: 0.8rem; border-radius: 10px; bottom: 20px; }
+
+      .app-footer { padding: 30px 0 20px; font-size: 0.65rem; }
+    }
+
+    /* Very small phones */
+    @media (max-width: 380px) {
+      .app-header h1 { font-size: 1.2rem; }
+      .type-selector { gap: 8px; }
+      .type-card { aspect-ratio: 1 / 1; }
+      .btn-group { flex-direction: column; }
+      .btn-group .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container" style="position: relative;">
+  <!-- Language Switcher -->
+  <div class="lang-switcher" id="langSwitcher">
+    <button class="lang-btn active" data-lang="ja">日本語</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">中文</button>
+    <button class="lang-btn" data-lang="ko">한국어</button>
+  </div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="logo-line">
+      <div class="logo-icon">✈️</div>
+    </div>
+    <h1 data-i18n="title">旅行持ち物リストメーカー</h1>
+    <div class="tagline" data-i18n="tagline">忘れ物ゼロで、快適な旅を</div>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- Setup -->
+  <div class="card" id="setupCard">
+    <div class="card-title" data-i18n="selectType">旅行タイプを選択</div>
+    <div class="type-selector" id="typeSelector">
+      <div class="type-card active" data-type="overseas">
+        <img class="type-card-img" id="img-overseas" src="" alt="海外旅行">
+        <div class="type-card-overlay">
+          <div class="type-card-label" data-i18n="overseas">海外旅行</div>
+        </div>
+        <div class="type-card-check">✓</div>
+      </div>
+      <div class="type-card" data-type="domestic">
+        <img class="type-card-img" id="img-domestic" src="" alt="国内旅行">
+        <div class="type-card-overlay">
+          <div class="type-card-label" data-i18n="domestic">国内旅行</div>
+        </div>
+        <div class="type-card-check">✓</div>
+      </div>
+      <div class="type-card" data-type="business">
+        <img class="type-card-img" id="img-business" src="" alt="出張">
+        <div class="type-card-overlay">
+          <div class="type-card-label" data-i18n="business">出張</div>
+        </div>
+        <div class="type-card-check">✓</div>
+      </div>
+      <div class="type-card" data-type="outdoor">
+        <img class="type-card-img" id="img-outdoor" src="" alt="アウトドア">
+        <div class="type-card-overlay">
+          <div class="type-card-label" data-i18n="outdoor">アウトドア</div>
+        </div>
+        <div class="type-card-check">✓</div>
+      </div>
+    </div>
+
+    <div class="setup-grid" style="margin-top: 24px;">
+      <div>
+        <label for="destination" data-i18n="destination">目的地</label>
+        <input type="text" id="destination" data-i18n-placeholder="destPlaceholder" placeholder="例: 東京、パリ、ハワイ">
+      </div>
+      <div>
+        <label for="duration" data-i18n="duration">泊数</label>
+        <select id="duration">
+          <option value="1">日帰り</option>
+          <option value="2" selected>1泊2日</option>
+          <option value="3">2泊3日</option>
+          <option value="4">3泊4日</option>
+          <option value="5">4泊5日</option>
+          <option value="7">1週間</option>
+          <option value="14">2週間</option>
+          <option value="30">1ヶ月</option>
+        </select>
+      </div>
+      <div class="full-width">
+        <label for="listName" data-i18n="listName">リスト名（任意）</label>
+        <input type="text" id="listName" data-i18n-placeholder="listNamePlaceholder" placeholder="例: 夏のハワイ旅行">
+      </div>
+    </div>
+
+    <button class="btn btn-gold generate-btn" id="generateBtn" data-i18n="createList">
+      リストを作成する
+    </button>
+    <button class="btn btn-outline generate-btn" id="weatherBtn" style="margin-top: 8px;" data-i18n="checkWeather">
+      🌤️ 天気をチェックしてから作成
+    </button>
+  </div>
+
+  <!-- Weather Banner -->
+  <div class="weather-banner" id="weatherBanner">
+    <div class="weather-icon" id="weatherIcon">☀️</div>
+    <div class="weather-info">
+      <h3 id="weatherTitle">東京の天気</h3>
+      <p id="weatherDesc">晴れ 25°C / 湿度 60%</p>
+    </div>
+    <button class="weather-suggestion" id="addWeatherItems" data-i18n="addWeatherItems">+ 天気に合わせた持ち物を追加</button>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-section" id="progressSection">
+    <div class="progress-card">
+      <div class="progress-header">
+        <span class="progress-text" id="progressText">Progress — 0%</span>
+        <span class="progress-count" id="progressCount">0 / 0</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="checklist-section" id="checklistSection">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+        <div class="card-title" style="margin-bottom: 0; flex: 1;"><span id="currentListName">持ち物リスト</span></div>
+        <div class="btn-group">
+          <button class="btn btn-sm btn-outline" id="uncheckAllBtn" data-i18n="uncheckAll">全解除</button>
+          <button class="btn btn-sm btn-success" id="saveListBtn" data-i18n="save">保存</button>
+          <button class="btn btn-sm btn-outline" id="shareBtn" data-i18n="share">共有</button>
+        </div>
+      </div>
+
+      <div id="checklistContainer"></div>
+
+      <div class="add-item-row">
+        <input type="text" id="newItemInput" data-i18n-placeholder="addItemPlaceholder" placeholder="アイテムを追加...">
+        <select id="newItemCategory">
+          <option value="essentials">必需品</option>
+          <option value="clothing">衣類</option>
+          <option value="toiletries">洗面用具</option>
+          <option value="electronics">電子機器</option>
+          <option value="documents">書類</option>
+          <option value="medicine">医薬品</option>
+          <option value="misc">その他</option>
+        </select>
+        <button class="btn btn-sm btn-primary" id="addItemBtn" data-i18n="add">追加</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved Lists (BOTTOM) -->
+  <div id="savedListsSection" style="margin-top: 12px;">
+    <div class="saved-section-title" data-i18n="savedLists">保存済みリスト</div>
+    <div id="savedListsContainer">
+      <div class="empty-state">
+        <div class="empty-icon">📦</div>
+        <p>保存済みリストはありません</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Share (Spread) -->
+  <div class="app-share-section">
+    <div class="app-share-inner">
+      <div class="app-share-text" data-i18n="spreadText">このアプリが役に立ったらシェアしよう</div>
+      <div class="app-share-buttons">
+        <button class="sns-pill sns-line" id="appShareLine">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 3.67 3.12 6.83 7.36 7.86.29.06.68.19.78.44.09.22.06.57.03.8l-.13.76c-.04.22-.17.87.76.47.93-.4 5.03-2.96 6.86-5.07C19.63 13.58 22 12.16 22 10.5 22 5.82 17.52 2 12 2zm-3.5 11h-2a.5.5 0 01-.5-.5v-4a.5.5 0 011 0V12h1.5a.5.5 0 010 1zm1.5-.5a.5.5 0 01-1 0v-4a.5.5 0 011 0v4zm4 0a.5.5 0 01-.38.49.5.5 0 01-.53-.2L11.5 10.3v2.2a.5.5 0 01-1 0v-4a.5.5 0 01.38-.49.5.5 0 01.53.2l1.59 2.49V8.5a.5.5 0 011 0v4zm3-3.5a.5.5 0 010 1H16v1h1.5a.5.5 0 010 1H16v1h1.5a.5.5 0 010 1h-2a.5.5 0 01-.5-.5v-4a.5.5 0 01.5-.5h2a.5.5 0 010 1H16v0z"/></svg>
+          LINE
+        </button>
+        <button class="sns-pill sns-x" id="appShareX">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X
+        </button>
+        <button class="sns-pill sns-facebook" id="appShareFacebook">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer" data-i18n="footer">旅行持ち物リストメーカー</footer>
+</div>
+
+<!-- Share Modal -->
+<div class="modal-overlay" id="shareModal">
+  <div class="modal">
+    <h3 data-i18n="shareTitle">リストを共有</h3>
+    <p style="font-size: 0.82rem; color: var(--gray-500); margin-bottom: 14px; font-weight: 300;" data-i18n="shareDesc">
+      テキストをコピーして、メモアプリやメッセージで共有できます
+    </p>
+
+    <!-- SNS Share Buttons -->
+    <div class="sns-share-grid">
+      <button class="sns-btn sns-line" id="shareLine" title="LINE">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 3.67 3.12 6.83 7.36 7.86.29.06.68.19.78.44.09.22.06.57.03.8l-.13.76c-.04.22-.17.87.76.47.93-.4 5.03-2.96 6.86-5.07C19.63 13.58 22 12.16 22 10.5 22 5.82 17.52 2 12 2zm-3.5 11h-2a.5.5 0 01-.5-.5v-4a.5.5 0 011 0V12h1.5a.5.5 0 010 1zm1.5-.5a.5.5 0 01-1 0v-4a.5.5 0 011 0v4zm4 0a.5.5 0 01-.38.49.5.5 0 01-.53-.2L11.5 10.3v2.2a.5.5 0 01-1 0v-4a.5.5 0 01.38-.49.5.5 0 01.53.2l1.59 2.49V8.5a.5.5 0 011 0v4zm3-3.5a.5.5 0 010 1H16v1h1.5a.5.5 0 010 1H16v1h1.5a.5.5 0 010 1h-2a.5.5 0 01-.5-.5v-4a.5.5 0 01.5-.5h2a.5.5 0 010 1H16v0z"/></svg>
+        <span>LINE</span>
+      </button>
+      <button class="sns-btn sns-x" id="shareX" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span>X</span>
+      </button>
+      <button class="sns-btn sns-facebook" id="shareFacebook" title="Facebook">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <span>Facebook</span>
+      </button>
+      <button class="sns-btn sns-clipboard" id="copyShareBtn2" title="コピー">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        <span data-i18n="copy">コピー</span>
+      </button>
+    </div>
+
+    <textarea id="shareText" readonly></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="closeModal" data-i18n="close">閉じる</button>
+      <button class="btn btn-primary" id="copyShareBtn" data-i18n="copy">コピー</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="confetti-container" id="confettiContainer"></div>
+
+<script>
+// ============================================================
+// Seasonal Images
+// ============================================================
+const U = (id) => `https://images.unsplash.com/photo-${id}?w=400&h=530&fit=crop&q=80`;
+
+const SEASONAL_IMAGES = {
+  overseas: {
+    spring: [
+      U('1499856871958-5b9627545d1a'),   // パリ エッフェル塔
+      U('1431274172761-fca41d930114'),   // パリ セーヌ川の春
+      U('1467269204594-9661b134dd2b'),   // ヨーロッパ花の街
+    ],
+    summer: [
+      U('1507525428034-b723cf961d3e'),   // トロピカルビーチ
+      U('1473116763249-2faaef81ccda'),   // 地中海コースト
+      U('1476514525535-07fb3b4ae5f1'),   // 海辺のリゾート
+    ],
+    autumn: [
+      U('1501952476817-d7ae22e8ee4e'),   // 秋のヨーロッパ街
+      U('1508739773434-c26b3d09e071'),   // ロンドンの秋
+      U('1543832923-44667a44c860'),      // 秋の橋と紅葉
+    ],
+    winter: [
+      U('1477601263568-180e2c6d046e'),   // 雪のヨーロッパ村
+      U('1519681393784-d120267933ba'),   // 雪山と星空
+      U('1482192505345-5655af888cc4'),   // 冬のプラハ風
+    ],
+  },
+  domestic: {
+    spring: [
+      U('1522383225653-ed111181a951'),   // 桜並木
+      U('1490806843957-31f4c9a91c65'),   // 富士山と桜
+      U('1524413840807-0c3cb6fa808d'),   // 日本庭園の春
+    ],
+    summer: [
+      U('1545569341-9eb8b30979d9'),      // 日本の神社
+      U('1503899036084-c55cdd92da26'),   // 花火大会
+      U('1528164344705-47542687000d'),   // 夏の海辺
+    ],
+    autumn: [
+      U('1493976040374-85c8e12f0c0e'),   // 伏見稲荷 鳥居
+      U('1478436127897-769e1b3f0f36'),   // 紅葉の寺院
+      U('1440404653325-ab127d49abc1'),   // 竹林の道
+    ],
+    winter: [
+      U('1517299321609-52687d1bc55a'),   // 雪景色
+      U('1542640244-7e672d6cef4e'),      // 冬の日本
+      U('1478436127897-769e1b3f0f36'),   // 静かな寺院
+    ],
+  },
+  business: {
+    spring: [
+      U('1497366216548-37526070297c'),   // 開放的オフィス
+      U('1497366754888-5a456de7987c'),   // ワークスペース
+      U('1556761175-4b46a572b786'),      // ミーティング風景
+    ],
+    summer: [
+      U('1497215842964-222b430dc094'),   // ガラスオフィス
+      U('1504384308090-c894fdcc538d'),   // コワーキングスペース
+      U('1497366811353-6870744d04b2'),   // デスクワーク
+    ],
+    autumn: [
+      U('1521737711867-e3b97375f902'),   // チーム会議
+      U('1497215728101-856f4ea42174'),   // 落ち着いたオフィス
+      U('1517502884422-41eaead166d4'),   // カンファレンス
+    ],
+    winter: [
+      U('1486406146926-c627a92ad1ab'),   // 都市ビル群
+      U('1462826303086-329426d1aef5'),   // 夜のビジネス街
+      U('1444723121867-7a241cacace9'),   // 高層ビル俯瞰
+    ],
+  },
+  outdoor: {
+    spring: [
+      U('1551632811-561732d1e306'),      // ハイキング
+      U('1441974231531-c6227db76b6e'),   // 新緑の森
+      U('1464822759023-fed622ff2c3b'),   // 山と花畑
+    ],
+    summer: [
+      U('1504280390367-361c6d9f38f4'),   // キャンプテント
+      U('1533240332313-0db49b459ad6'),   // 山頂の眺望
+      U('1501555088652-2d88de2adaa5'),   // 湖畔のアウトドア
+    ],
+    autumn: [
+      U('1509316785289-025f5b846b35'),   // 紅葉トレイル
+      U('1508193638397-1c4234db14d8'),   // 秋の森
+      U('1473773508845-188df298d2d1'),   // 秋のキャンプ
+    ],
+    winter: [
+      U('1483728642387-6c3bdd6c93e5'),   // 雪山パノラマ
+      U('1418985991508-e47386d96a71'),   // 冬の山岳
+      U('1491002052546-bf38f186af56'),   // 雪原ハイク
+    ],
+  }
+};
+
+function getCurrentSeason() {
+  const month = new Date().getMonth() + 1;
+  if (month >= 3 && month <= 5) return 'spring';
+  if (month >= 6 && month <= 8) return 'summer';
+  if (month >= 9 && month <= 11) return 'autumn';
+  return 'winter';
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function applySeasonalImages() {
+  const season = getCurrentSeason();
+  for (const type of ['overseas', 'domestic', 'business', 'outdoor']) {
+    const img = document.getElementById(`img-${type}`);
+    if (!img) continue;
+    const urls = shuffleArray(SEASONAL_IMAGES[type][season]);
+    img.src = urls[0];
+    // フォールバック: 読み込み失敗時に次の画像を試行
+    let attempt = 1;
+    img.onerror = function() {
+      if (attempt < urls.length) {
+        this.src = urls[attempt];
+        attempt++;
+      } else {
+        // 全画像が失敗した場合、グラデーション背景を表示
+        this.style.display = 'none';
+        this.parentElement.style.background =
+          type === 'overseas' ? 'linear-gradient(135deg, #1e3a5f, #2d6a9f)' :
+          type === 'domestic' ? 'linear-gradient(135deg, #5b2c6f, #c39bd3)' :
+          type === 'business' ? 'linear-gradient(135deg, #1c2833, #566573)' :
+          'linear-gradient(135deg, #1e8449, #52be80)';
+      }
+    };
+  }
+}
+
+applySeasonalImages();
+
+// ============================================================
+// i18n
+// ============================================================
+let currentLang = 'ja';
+
+const I18N = {
+  ja: {
+    title: '旅行持ち物リストメーカー', tagline: '忘れ物ゼロで、快適な旅を',
+    selectType: '旅行タイプを選択', overseas: '海外旅行', domestic: '国内旅行', business: '出張', outdoor: 'アウトドア',
+    destination: '目的地', duration: '泊数', listName: 'リスト名（任意）',
+    destPlaceholder: '例: 東京、パリ、ハワイ', listNamePlaceholder: '例: 夏のハワイ旅行',
+    createList: 'リストを作成する', checkWeather: '🌤️ 天気をチェックしてから作成',
+    addWeatherItems: '+ 天気に合わせた持ち物を追加',
+    uncheckAll: '全解除', save: '保存', share: '共有', add: '追加',
+    addItemPlaceholder: 'アイテムを追加...',
+    savedLists: '保存済みリスト', footer: '旅行持ち物リストメーカー', spreadText: 'このアプリが役に立ったらシェアしよう',
+    shareTitle: 'リストを共有', shareDesc: 'テキストをコピーして、メモアプリやメッセージで共有できます',
+    close: '閉じる', copy: 'コピー',
+    packingList: '持ち物リスト', progress: '準備完了', complete: '🎉 準備完了！',
+    noSaved: '保存済みリストはありません', load: '読込', delete: '削除',
+    fetching: '取得中...', notFound: '場所が見つかりませんでした', weatherFail: '天気の取得に失敗しました',
+    enterDest: '目的地を入力してください', saved: '保存しました', deleted: '削除しました',
+    unchecked: '全チェック解除', copied: 'コピーしました', added: '件追加しました',
+    alreadyAdded: 'すでに追加済みです', loaded: 'を読み込みました',
+    forecast: 'の天気予報（7日間平均）', precip: '降水確率',
+    must: '必須', weather: '天気',
+    dayTrip: '日帰り', night1: '1泊2日', night2: '2泊3日', night3: '3泊4日', night4: '4泊5日',
+    week1: '1週間', week2: '2週間', month1: '1ヶ月',
+    catEssentials: '必需品', catClothing: '衣類', catToiletries: '洗面用具',
+    catElectronics: '電子機器', catDocuments: '書類', catMedicine: '医薬品', catMisc: 'その他',
+  },
+  en: {
+    title: 'Travel Packing List', tagline: 'Pack smart, travel light',
+    selectType: 'Select Travel Type', overseas: 'Overseas', domestic: 'Domestic', business: 'Business', outdoor: 'Outdoor',
+    destination: 'Destination', duration: 'Duration', listName: 'List Name (optional)',
+    destPlaceholder: 'e.g. Tokyo, Paris, Hawaii', listNamePlaceholder: 'e.g. Summer Hawaii Trip',
+    createList: 'Create List', checkWeather: '🌤️ Check Weather First',
+    addWeatherItems: '+ Add weather-based items',
+    uncheckAll: 'Uncheck All', save: 'Save', share: 'Share', add: 'Add',
+    addItemPlaceholder: 'Add an item...',
+    savedLists: 'Saved Lists', footer: 'Travel Packing List Maker', spreadText: 'Found this useful? Share it with friends!',
+    shareTitle: 'Share List', shareDesc: 'Copy the text below to share via messages or notes app',
+    close: 'Close', copy: 'Copy',
+    packingList: 'Packing List', progress: 'Progress', complete: '🎉 All Packed!',
+    noSaved: 'No saved lists yet', load: 'Load', delete: 'Delete',
+    fetching: 'Fetching...', notFound: 'Location not found', weatherFail: 'Failed to fetch weather',
+    enterDest: 'Please enter a destination', saved: 'Saved', deleted: 'Deleted',
+    unchecked: 'All unchecked', copied: 'Copied to clipboard', added: ' items added',
+    alreadyAdded: 'Already added', loaded: ' loaded',
+    forecast: ' — 7 Day Forecast', precip: 'Precip.',
+    must: 'MUST', weather: 'WEATHER',
+    dayTrip: 'Day trip', night1: '1 night', night2: '2 nights', night3: '3 nights', night4: '4 nights',
+    week1: '1 week', week2: '2 weeks', month1: '1 month',
+    catEssentials: 'Essentials', catClothing: 'Clothing', catToiletries: 'Toiletries',
+    catElectronics: 'Electronics', catDocuments: 'Documents', catMedicine: 'Medicine', catMisc: 'Others',
+  },
+  zh: {
+    title: '旅行物品清单', tagline: '零遗漏，舒适旅行',
+    selectType: '选择旅行类型', overseas: '海外旅行', domestic: '国内旅行', business: '出差', outdoor: '户外',
+    destination: '目的地', duration: '天数', listName: '清单名称（可选）',
+    destPlaceholder: '例：东京、巴黎、夏威夷', listNamePlaceholder: '例：夏季夏威夷之旅',
+    createList: '创建清单', checkWeather: '🌤️ 先查看天气再创建',
+    addWeatherItems: '+ 根据天气添加物品',
+    uncheckAll: '全部取消', save: '保存', share: '分享', add: '添加',
+    addItemPlaceholder: '添加物品...',
+    savedLists: '已保存的清单', footer: '旅行物品清单', spreadText: '觉得好用？分享给朋友吧！',
+    shareTitle: '分享清单', shareDesc: '复制文本，通过消息或备忘录分享',
+    close: '关闭', copy: '复制',
+    packingList: '物品清单', progress: '准备进度', complete: '🎉 准备完毕！',
+    noSaved: '暂无已保存的清单', load: '加载', delete: '删除',
+    fetching: '获取中...', notFound: '未找到该地点', weatherFail: '获取天气失败',
+    enterDest: '请输入目的地', saved: '已保存', deleted: '已删除',
+    unchecked: '已全部取消', copied: '已复制到剪贴板', added: '个物品已添加',
+    alreadyAdded: '已经添加过了', loaded: '已加载',
+    forecast: ' — 7天天气预报', precip: '降水概率',
+    must: '必备', weather: '天气',
+    dayTrip: '当天往返', night1: '1晚2天', night2: '2晚3天', night3: '3晚4天', night4: '4晚5天',
+    week1: '1周', week2: '2周', month1: '1个月',
+    catEssentials: '必需品', catClothing: '衣物', catToiletries: '洗漱用品',
+    catElectronics: '电子设备', catDocuments: '证件', catMedicine: '药品', catMisc: '其他',
+  },
+  ko: {
+    title: '여행 짐 리스트', tagline: '빠짐없이, 편안한 여행을',
+    selectType: '여행 유형 선택', overseas: '해외여행', domestic: '국내여행', business: '출장', outdoor: '아웃도어',
+    destination: '목적지', duration: '숙박 수', listName: '리스트 이름 (선택)',
+    destPlaceholder: '예: 도쿄, 파리, 하와이', listNamePlaceholder: '예: 여름 하와이 여행',
+    createList: '리스트 만들기', checkWeather: '🌤️ 날씨 확인 후 만들기',
+    addWeatherItems: '+ 날씨에 맞는 물건 추가',
+    uncheckAll: '전체 해제', save: '저장', share: '공유', add: '추가',
+    addItemPlaceholder: '물건 추가...',
+    savedLists: '저장된 리스트', footer: '여행 짐 리스트 메이커', spreadText: '유용하셨나요? 친구에게 공유해보세요!',
+    shareTitle: '리스트 공유', shareDesc: '텍스트를 복사하여 메시지나 메모 앱으로 공유하세요',
+    close: '닫기', copy: '복사',
+    packingList: '짐 리스트', progress: '준비 완료', complete: '🎉 준비 완료!',
+    noSaved: '저장된 리스트가 없습니다', load: '불러오기', delete: '삭제',
+    fetching: '가져오는 중...', notFound: '장소를 찾을 수 없습니다', weatherFail: '날씨 정보를 가져오지 못했습니다',
+    enterDest: '목적지를 입력하세요', saved: '저장되었습니다', deleted: '삭제되었습니다',
+    unchecked: '전체 체크 해제', copied: '클립보드에 복사됨', added: '개 추가됨',
+    alreadyAdded: '이미 추가되었습니다', loaded: ' 불러왔습니다',
+    forecast: ' — 7일 일기예보', precip: '강수확률',
+    must: '필수', weather: '날씨',
+    dayTrip: '당일치기', night1: '1박 2일', night2: '2박 3일', night3: '3박 4일', night4: '4박 5일',
+    week1: '1주일', week2: '2주일', month1: '1개월',
+    catEssentials: '필수품', catClothing: '의류', catToiletries: '세면용품',
+    catElectronics: '전자기기', catDocuments: '서류', catMedicine: '의약품', catMisc: '기타',
+  }
+};
+
+function t(key) { return I18N[currentLang]?.[key] || I18N['ja'][key] || key; }
+
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (I18N[currentLang]?.[key]) el.textContent = I18N[currentLang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (I18N[currentLang]?.[key]) el.placeholder = I18N[currentLang][key];
+  });
+  // Update duration options
+  const dur = document.getElementById('duration');
+  if (dur) {
+    const keys = ['dayTrip','night1','night2','night3','night4','week1','week2','month1'];
+    Array.from(dur.options).forEach((opt, i) => { if (keys[i]) opt.textContent = t(keys[i]); });
+  }
+  // Update category select
+  const catSel = document.getElementById('newItemCategory');
+  if (catSel) {
+    const catKeys = ['catEssentials','catClothing','catToiletries','catElectronics','catDocuments','catMedicine','catMisc'];
+    Array.from(catSel.options).forEach((opt, i) => { if (catKeys[i]) opt.textContent = t(catKeys[i]); });
+  }
+  // Re-render dynamic content if checklist exists
+  if (state.checklist.length) renderChecklist();
+  renderSavedLists();
+}
+
+document.getElementById('langSwitcher').addEventListener('click', (e) => {
+  const btn = e.target.closest('.lang-btn');
+  if (!btn) return;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentLang = btn.dataset.lang;
+  localStorage.setItem('travel_packing_lang', currentLang);
+  applyI18n();
+});
+
+// Restore saved language
+const savedLang = localStorage.getItem('travel_packing_lang');
+if (savedLang && I18N[savedLang]) {
+  currentLang = savedLang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
+}
+
+const TEMPLATES = {
+  overseas: {
+    essentials: { icon: '🎒', name: '必需品', items: [
+      { name: 'パスポート', essential: true }, { name: 'ビザ（必要な場合）', essential: true },
+      { name: '航空券（eチケット）', essential: true }, { name: 'クレジットカード', essential: true },
+      { name: '現地通貨・両替', essential: true }, { name: '海外旅行保険証', essential: true },
+      { name: 'スマートフォン', essential: true }, { name: '財布' }, { name: 'ホテル予約確認書' },
+    ]},
+    clothing: { icon: '👕', name: '衣類', items: [
+      { name: '下着（日数分＋予備）' }, { name: '靴下（日数分＋予備）' },
+      { name: 'Tシャツ・トップス' }, { name: 'ズボン・スカート' },
+      { name: '上着・羽織り' }, { name: 'パジャマ' }, { name: '歩きやすい靴' },
+    ]},
+    toiletries: { icon: '🧴', name: '洗面用具', items: [
+      { name: '歯ブラシ・歯磨き粉' }, { name: 'シャンプー・リンス（ミニ）' },
+      { name: 'ボディソープ（ミニ）' }, { name: '洗顔料' },
+      { name: '化粧品・スキンケア' }, { name: '日焼け止め' }, { name: 'ティッシュ・ウェットティッシュ' },
+    ]},
+    electronics: { icon: '🔌', name: '電子機器', items: [
+      { name: 'スマホ充電器', essential: true }, { name: 'モバイルバッテリー', essential: true },
+      { name: '変圧器・変換プラグ', essential: true }, { name: 'イヤホン' },
+      { name: 'カメラ' }, { name: 'Wi-Fiルーター / SIMカード' },
+    ]},
+    documents: { icon: '📄', name: '書類', items: [
+      { name: 'パスポートのコピー', essential: true }, { name: '緊急連絡先メモ' },
+      { name: '旅行日程表' }, { name: '大使館連絡先' },
+    ]},
+    medicine: { icon: '💊', name: '医薬品', items: [
+      { name: '常備薬' }, { name: '酔い止め' }, { name: '絆創膏' },
+      { name: '胃薬・頭痛薬' }, { name: '虫除けスプレー' },
+    ]},
+    misc: { icon: '📦', name: 'その他', items: [
+      { name: 'エコバッグ' }, { name: '圧縮袋' }, { name: 'ネックピロー' },
+      { name: 'アイマスク・耳栓' }, { name: 'ガイドブック' }, { name: '筆記用具' }, { name: 'ジップロック' },
+    ]}
+  },
+  domestic: {
+    essentials: { icon: '🎒', name: '必需品', items: [
+      { name: 'スマートフォン', essential: true }, { name: '財布', essential: true },
+      { name: '交通ICカード', essential: true }, { name: '保険証', essential: true },
+      { name: '予約確認書' }, { name: '現金' },
+    ]},
+    clothing: { icon: '👕', name: '衣類', items: [
+      { name: '下着（日数分＋予備）' }, { name: '靴下（日数分）' },
+      { name: 'トップス' }, { name: 'ボトムス' }, { name: '上着' }, { name: 'パジャマ' },
+    ]},
+    toiletries: { icon: '🧴', name: '洗面用具', items: [
+      { name: '歯ブラシ・歯磨き粉' }, { name: '化粧品・スキンケア' },
+      { name: 'ヘアブラシ' }, { name: '日焼け止め' }, { name: 'ティッシュ' },
+    ]},
+    electronics: { icon: '🔌', name: '電子機器', items: [
+      { name: 'スマホ充電器', essential: true }, { name: 'モバイルバッテリー' },
+      { name: 'イヤホン' }, { name: 'カメラ' },
+    ]},
+    medicine: { icon: '💊', name: '医薬品', items: [
+      { name: '常備薬' }, { name: '酔い止め' }, { name: '絆創膏' },
+    ]},
+    misc: { icon: '📦', name: 'その他', items: [
+      { name: 'エコバッグ' }, { name: '折りたたみ傘' }, { name: 'お土産用バッグ' }, { name: '筆記用具' },
+    ]}
+  },
+  business: {
+    essentials: { icon: '🎒', name: '必需品', items: [
+      { name: 'スマートフォン', essential: true }, { name: '財布', essential: true },
+      { name: '名刺', essential: true }, { name: 'ノートPC', essential: true },
+      { name: '社員証', essential: true }, { name: '出張旅費申請書' }, { name: '予約確認書' },
+    ]},
+    clothing: { icon: '👔', name: '衣類', items: [
+      { name: 'スーツ', essential: true }, { name: 'ワイシャツ（日数分＋予備）', essential: true },
+      { name: 'ネクタイ' }, { name: 'ビジネスシューズ' },
+      { name: '下着（日数分＋予備）' }, { name: '靴下（日数分＋予備）' },
+      { name: 'ベルト' }, { name: 'パジャマ' },
+    ]},
+    toiletries: { icon: '🧴', name: '洗面用具', items: [
+      { name: '歯ブラシ・歯磨き粉' }, { name: '整髪料' },
+      { name: '化粧品・スキンケア' }, { name: 'ハンカチ' },
+    ]},
+    electronics: { icon: '🔌', name: '電子機器', items: [
+      { name: 'PC充電器', essential: true }, { name: 'スマホ充電器', essential: true },
+      { name: 'モバイルバッテリー' }, { name: 'USBケーブル' },
+      { name: 'イヤホン' }, { name: 'ポケットWi-Fi' },
+    ]},
+    documents: { icon: '📄', name: '書類・資料', items: [
+      { name: '会議資料', essential: true }, { name: 'プレゼン資料' },
+      { name: '議事録用ノート' }, { name: '筆記用具' },
+    ]},
+    misc: { icon: '📦', name: 'その他', items: [
+      { name: '折りたたみ傘' }, { name: 'エコバッグ' },
+    ]}
+  },
+  outdoor: {
+    essentials: { icon: '🎒', name: '必需品', items: [
+      { name: 'スマートフォン', essential: true }, { name: '財布', essential: true },
+      { name: 'リュックサック', essential: true }, { name: '地図・ガイド', essential: true },
+      { name: 'ヘッドライト・懐中電灯', essential: true },
+      { name: 'ライター・マッチ' }, { name: 'ナイフ（マルチツール）' },
+    ]},
+    clothing: { icon: '🧥', name: '衣類', items: [
+      { name: '速乾Tシャツ（日数分＋予備）' }, { name: 'トレッキングパンツ' },
+      { name: 'レインウェア（上下）', essential: true }, { name: 'フリース・ダウン' },
+      { name: '帽子', essential: true }, { name: '登山靴・トレッキングシューズ', essential: true },
+      { name: '厚手の靴下' }, { name: '手袋' }, { name: 'サングラス' },
+    ]},
+    toiletries: { icon: '🧴', name: '衛生用品', items: [
+      { name: '日焼け止め', essential: true }, { name: '虫除けスプレー', essential: true },
+      { name: 'ウェットティッシュ' }, { name: 'トイレットペーパー' }, { name: 'タオル' },
+    ]},
+    electronics: { icon: '🔌', name: '電子機器', items: [
+      { name: 'モバイルバッテリー（大容量）', essential: true },
+      { name: 'スマホ充電ケーブル' }, { name: 'カメラ' },
+    ]},
+    medicine: { icon: '💊', name: '医薬品・救急', items: [
+      { name: '救急セット', essential: true }, { name: '絆創膏' },
+      { name: '消毒液' }, { name: '常備薬' }, { name: '虫刺され薬' },
+    ]},
+    misc: { icon: '📦', name: 'その他', items: [
+      { name: 'テント' }, { name: '寝袋（シュラフ）' }, { name: 'マット' },
+      { name: 'クッカー・食器' }, { name: '水筒（1L以上）', essential: true },
+      { name: '行動食・非常食', essential: true }, { name: 'ゴミ袋' }, { name: 'ロープ・カラビナ' },
+    ]}
+  }
+};
+
+const WEATHER_ITEMS = {
+  hot: [
+    { name: 'サングラス', category: 'clothing' }, { name: '日焼け止め（強力）', category: 'toiletries' },
+    { name: '帽子', category: 'clothing' }, { name: '扇子・ハンディファン', category: 'misc' },
+    { name: '制汗スプレー', category: 'toiletries' },
+  ],
+  cold: [
+    { name: 'ダウンジャケット', category: 'clothing' }, { name: 'マフラー', category: 'clothing' },
+    { name: '手袋', category: 'clothing' }, { name: 'カイロ', category: 'misc' },
+    { name: 'リップクリーム', category: 'toiletries' },
+  ],
+  rainy: [
+    { name: '折りたたみ傘', category: 'misc' }, { name: 'レインコート', category: 'clothing' },
+    { name: '防水バッグ', category: 'misc' }, { name: '替えの靴下', category: 'clothing' },
+    { name: '速乾タオル', category: 'toiletries' },
+  ],
+  snowy: [
+    { name: '防水ブーツ', category: 'clothing' }, { name: 'ダウンジャケット', category: 'clothing' },
+    { name: '手袋（防水）', category: 'clothing' }, { name: 'マフラー', category: 'clothing' },
+    { name: 'カイロ', category: 'misc' }, { name: '滑り止め', category: 'misc' },
+  ]
+};
+
+const CATEGORY_ICONS = { essentials:'🎒', clothing:'👕', toiletries:'🧴', electronics:'🔌', documents:'📄', medicine:'💊', misc:'📦' };
+const CATEGORY_NAMES = { essentials:'必需品', clothing:'衣類', toiletries:'洗面用具', electronics:'電子機器', documents:'書類', medicine:'医薬品', misc:'その他' };
+
+let state = { travelType: 'overseas', checklist: [], weatherData: null, currentListId: null };
+let idCounter = 0;
+function nextId() { return ++idCounter; }
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+// Type Selector
+$('#typeSelector').addEventListener('click', (e) => {
+  const card = e.target.closest('.type-card');
+  if (!card) return;
+  $$('.type-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  state.travelType = card.dataset.type;
+});
+
+// Generate
+$('#generateBtn').addEventListener('click', () => generateChecklist());
+
+function generateChecklist() {
+  const template = TEMPLATES[state.travelType];
+  state.checklist = [];
+  state.currentListId = null;
+  for (const [catKey, catData] of Object.entries(template)) {
+    for (const item of catData.items) {
+      state.checklist.push({ id: nextId(), name: item.name, category: catKey, checked: false, essential: item.essential || false, weather: false });
+    }
+  }
+  state.weatherData = null;
+  $('#weatherBanner').classList.remove('visible');
+  renderChecklist();
+  showSection();
+}
+
+// Weather
+$('#weatherBtn').addEventListener('click', async () => {
+  const dest = $('#destination').value.trim();
+  if (!dest) { showToast(t('enterDest')); $('#destination').focus(); return; }
+  $('#weatherBtn').textContent = t('fetching');
+  $('#weatherBtn').disabled = true;
+  try {
+    const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(dest)}&count=1&language=ja`);
+    const geoData = await geoRes.json();
+    if (!geoData.results?.length) { showToast(t('notFound')); return; }
+    const { latitude, longitude, name } = geoData.results[0];
+    const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode&timezone=auto&forecast_days=7`);
+    const wxData = await wxRes.json();
+    const d = wxData.daily;
+    const avgMax = d.temperature_2m_max.reduce((a,b)=>a+b,0)/d.temperature_2m_max.length;
+    const avgMin = d.temperature_2m_min.reduce((a,b)=>a+b,0)/d.temperature_2m_min.length;
+    const avgP = d.precipitation_probability_max.reduce((a,b)=>a+b,0)/d.precipitation_probability_max.length;
+    const code = d.weathercode[0];
+    let wt='mild',we='🌤️',wl='快適';
+    if(code>=71){wt='snowy';we='❄️';wl='雪';}
+    else if(code>=51||avgP>50){wt='rainy';we='🌧️';wl='雨';}
+    else if(avgMax>30){wt='hot';we='☀️';wl='猛暑';}
+    else if(avgMax>25){wt='hot';we='🌞';wl='暑い';}
+    else if(avgMin<5){wt='cold';we='🥶';wl='寒い';}
+    else if(avgMin<10){wt='cold';we='🧣';wl='肌寒い';}
+    state.weatherData={type:wt,name,emoji:we,label:wl,maxTemp:Math.round(avgMax),minTemp:Math.round(avgMin),precip:Math.round(avgP)};
+    $('#weatherIcon').textContent=we;
+    $('#weatherTitle').textContent=`${name}${t('forecast')}`;
+    $('#weatherDesc').textContent=`${wl} ${state.weatherData.maxTemp}°C / ${state.weatherData.minTemp}°C ・ ${t('precip')} ${state.weatherData.precip}%`;
+    $('#weatherBanner').classList.add('visible');
+    if(!state.checklist.length) generateChecklist();
+  } catch(err) { showToast(t('weatherFail')); console.error(err); }
+  finally { $('#weatherBtn').textContent=t('checkWeather'); $('#weatherBtn').disabled=false; }
+});
+
+$('#addWeatherItems').addEventListener('click', () => {
+  if(!state.weatherData||!WEATHER_ITEMS[state.weatherData.type]) return;
+  let c=0;
+  for(const item of WEATHER_ITEMS[state.weatherData.type]){
+    if(!state.checklist.some(i=>i.name===item.name)){
+      state.checklist.push({id:nextId(),name:item.name,category:item.category,checked:false,essential:false,weather:true}); c++;
+    }
+  }
+  if(c>0){showToast(`${c}${t('added')}`);renderChecklist();}else showToast(t('alreadyAdded'));
+});
+
+// Render
+function renderChecklist(){
+  const container=$('#checklistContainer');
+  container.innerHTML='';
+  const groups={};
+  for(const item of state.checklist){if(!groups[item.category])groups[item.category]=[];groups[item.category].push(item);}
+  for(const[catKey,items]of Object.entries(groups)){
+    const tmpl=TEMPLATES[state.travelType];
+    const ci=tmpl[catKey]?.icon||CATEGORY_ICONS[catKey]||'📦';
+    const cn=tmpl[catKey]?.name||CATEGORY_NAMES[catKey]||catKey;
+    const cc=items.filter(i=>i.checked).length;
+    const g=document.createElement('div');g.className='category-group';
+    g.innerHTML=`<div class="category-header"><span class="category-name"><span class="cat-icon">${ci}</span>${cn}</span><span class="category-count">${cc} / ${items.length}</span></div>
+    <div class="category-items">${items.map(item=>`<div class="item-row ${item.checked?'checked':''}" data-id="${item.id}"><div class="item-checkbox"></div><span class="item-name">${item.name}</span>${item.essential?`<span class="item-badge badge-essential">${t('must')}</span>`:''}${item.weather?`<span class="item-badge badge-weather">${t('weather')}</span>`:''}<button class="item-delete" title="${t('delete')}">×</button></div>`).join('')}</div>`;
+    container.appendChild(g);
+  }
+  updateProgress();
+  $('#currentListName').textContent=$('#listName').value.trim()||t('packingList');
+}
+
+// Interactions
+$('#checklistContainer').addEventListener('click',(e)=>{
+  const row=e.target.closest('.item-row');
+  if(row&&!e.target.closest('.item-delete')){const id=parseInt(row.dataset.id);const item=state.checklist.find(i=>i.id===id);if(item){item.checked=!item.checked;renderChecklist();}return;}
+  const del=e.target.closest('.item-delete');
+  if(del){state.checklist=state.checklist.filter(i=>i.id!==parseInt(del.closest('.item-row').dataset.id));renderChecklist();}
+});
+
+$('#addItemBtn').addEventListener('click',addItem);
+$('#newItemInput').addEventListener('keydown',(e)=>{if(e.key==='Enter')addItem();});
+function addItem(){
+  const n=$('#newItemInput').value.trim();if(!n)return;
+  state.checklist.push({id:nextId(),name:n,category:$('#newItemCategory').value,checked:false,essential:false,weather:false});
+  $('#newItemInput').value='';renderChecklist();showToast(`「${n}」${t('add')}`);
+}
+
+$('#uncheckAllBtn').addEventListener('click',()=>{state.checklist.forEach(i=>i.checked=false);renderChecklist();showToast(t('unchecked'));});
+
+// Progress
+function updateProgress(){
+  const total=state.checklist.length,checked=state.checklist.filter(i=>i.checked).length;
+  const p=total>0?Math.round((checked/total)*100):0;
+  $('#progressText').textContent=p===100&&total>0?t('complete'):`${t('progress')} — ${p}%`;
+  $('#progressCount').textContent=`${checked} / ${total}`;
+  $('#progressFill').style.width=`${p}%`;
+  if(p===100&&total>0){$('#progressFill').style.background='linear-gradient(90deg,#0d9488,#14b8a6)';launchConfetti();}
+  else{$('#progressFill').style.background='linear-gradient(90deg,var(--gold),#d4a520)';}
+}
+
+function launchConfetti(){
+  const c=$('#confettiContainer');c.innerHTML='';
+  const cols=['#b8860b','#d4a520','#0d9488','#be123c','#0f172a','#f59e0b'];
+  for(let i=0;i<50;i++){const d=document.createElement('div');d.className='confetti';d.style.left=Math.random()*100+'%';d.style.background=cols[Math.floor(Math.random()*cols.length)];d.style.animationDelay=Math.random()*2+'s';d.style.animationDuration=(2+Math.random()*2)+'s';d.style.width=(5+Math.random()*7)+'px';d.style.height=(5+Math.random()*7)+'px';d.style.borderRadius=Math.random()>0.5?'50%':'1px';c.appendChild(d);}
+  setTimeout(()=>c.innerHTML='',4000);
+}
+
+function showSection(){
+  $('#progressSection').classList.add('visible');
+  $('#checklistSection').classList.add('visible');
+  updateProgress();
+  setTimeout(()=>$('#progressSection').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+// Storage
+const SK='travel_packing_lists';
+function getSaved(){try{return JSON.parse(localStorage.getItem(SK))||[];}catch{return[];}}
+function saveLists(l){localStorage.setItem(SK,JSON.stringify(l));}
+
+$('#saveListBtn').addEventListener('click',()=>{
+  const name=$('#listName').value.trim()||`${getTypeName(state.travelType)}リスト`;
+  const ld={id:state.currentListId||Date.now(),name,destination:$('#destination').value.trim(),travelType:state.travelType,duration:$('#duration').value,checklist:state.checklist,weatherData:state.weatherData,savedAt:new Date().toISOString()};
+  const ls=getSaved();const idx=ls.findIndex(l=>l.id===ld.id);
+  if(idx>=0)ls[idx]=ld;else ls.unshift(ld);
+  saveLists(ls);state.currentListId=ld.id;renderSavedLists();showToast(t('saved'));
+});
+
+function loadList(ld){
+  state.travelType=ld.travelType;state.checklist=ld.checklist;state.weatherData=ld.weatherData;state.currentListId=ld.id;
+  idCounter=Math.max(0,...state.checklist.map(i=>i.id));
+  $$('.type-card').forEach(c=>c.classList.toggle('active',c.dataset.type===state.travelType));
+  $('#destination').value=ld.destination||'';$('#duration').value=ld.duration||'2';$('#listName').value=ld.name||'';
+  if(state.weatherData){$('#weatherIcon').textContent=state.weatherData.emoji;$('#weatherTitle').textContent=`${state.weatherData.name}${t('forecast')}`;$('#weatherDesc').textContent=`${state.weatherData.label} ${state.weatherData.maxTemp}°C / ${state.weatherData.minTemp}°C`;$('#weatherBanner').classList.add('visible');}
+  else{$('#weatherBanner').classList.remove('visible');}
+  renderChecklist();showSection();showToast(`「${ld.name}」${t('loaded')}`);
+}
+
+function deleteList(id){saveLists(getSaved().filter(l=>l.id!==id));if(state.currentListId===id)state.currentListId=null;renderSavedLists();showToast(t('deleted'));}
+
+function renderSavedLists(){
+  const ls=getSaved(),c=$('#savedListsContainer');
+  if(!ls.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">📦</div><p>${t('noSaved')}</p></div>`;return;}
+  c.innerHTML=ls.map(l=>{
+    const tot=l.checklist.length,ch=l.checklist.filter(i=>i.checked).length,p=tot>0?Math.round((ch/tot)*100):0;
+    const date=new Date(l.savedAt).toLocaleDateString('ja-JP');
+    return `<div class="saved-list-item"><div class="saved-list-info" data-id="${l.id}"><div class="saved-list-name">${l.name}</div><div class="saved-list-meta">${getTypeName(l.travelType)}${l.destination?' ・ '+l.destination:''} ・ ${p}% ・ ${date}</div></div><div class="saved-list-actions"><button class="btn btn-sm btn-primary load-list-btn" data-id="${l.id}">${t('load')}</button><button class="btn btn-sm btn-danger delete-list-btn" data-id="${l.id}">${t('delete')}</button></div></div>`;
+  }).join('');
+}
+
+$('#savedListsContainer').addEventListener('click',(e)=>{
+  const lb=e.target.closest('.load-list-btn');if(lb){const l=getSaved().find(l=>l.id===parseInt(lb.dataset.id));if(l)loadList(l);return;}
+  const db=e.target.closest('.delete-list-btn');if(db){deleteList(parseInt(db.dataset.id));return;}
+  const info=e.target.closest('.saved-list-info');if(info){const l=getSaved().find(l=>l.id===parseInt(info.dataset.id));if(l)loadList(l);}
+});
+
+// Share
+$('#shareBtn').addEventListener('click',()=>{
+  const name=$('#listName').value.trim()||t('packingList');
+  const dest=$('#destination').value.trim();
+  let text=`✈️ ${name}\n`;if(dest)text+=`📍 ${dest}\n`;text+=`━━━━━━━━━━━━━━━━━━\n\n`;
+  const groups={};for(const item of state.checklist){if(!groups[item.category])groups[item.category]=[];groups[item.category].push(item);}
+  for(const[ck,items]of Object.entries(groups)){
+    text+=`${CATEGORY_ICONS[ck]||'📦'} ${CATEGORY_NAMES[ck]||ck}\n`;
+    for(const item of items)text+=`  ${item.checked?'✅':'⬜'} ${item.name}${item.essential?' ⚠️必須':''}\n`;text+='\n';
+  }
+  const tot=state.checklist.length,chk=state.checklist.filter(i=>i.checked).length;
+  text+=`━━━━━━━━━━━━━━━━━━\n📊 ${chk}/${tot} (${tot>0?Math.round((chk/tot)*100):0}%)\n`;
+  $('#shareText').value=text;$('#shareModal').classList.add('visible');
+});
+
+// クリップボードコピー共通関数
+function copyAndClose() {
+  navigator.clipboard.writeText($('#shareText').value).then(()=>{
+    showToast(t('copied'));$('#shareModal').classList.remove('visible');
+  }).catch(()=>{
+    $('#shareText').select();document.execCommand('copy');
+    showToast(t('copied'));$('#shareModal').classList.remove('visible');
+  });
+}
+
+$('#copyShareBtn').addEventListener('click', copyAndClose);
+$('#copyShareBtn2').addEventListener('click', copyAndClose);
+
+// SNS共有用の短縮テキスト生成
+function getShareSummary() {
+  const name = $('#listName').value.trim() || t('packingList');
+  const dest = $('#destination').value.trim();
+  const tot = state.checklist.length;
+  const chk = state.checklist.filter(i => i.checked).length;
+  const pct = tot > 0 ? Math.round((chk / tot) * 100) : 0;
+  let summary = `✈️ ${name}`;
+  if (dest) summary += ` 📍${dest}`;
+  summary += ` | ${t('progress')} ${pct}% (${chk}/${tot})`;
+  // 必須アイテムの未チェック警告
+  const uncheckedEssentials = state.checklist.filter(i => i.essential && !i.checked);
+  if (uncheckedEssentials.length > 0) {
+    summary += `\n⚠️ ${t('must')}: ${uncheckedEssentials.slice(0, 5).map(i => i.name).join(', ')}`;
+    if (uncheckedEssentials.length > 5) summary += `...`;
+  }
+  return summary;
+}
+
+// LINE共有
+$('#shareLine').addEventListener('click', () => {
+  const text = encodeURIComponent(getShareSummary());
+  window.open(`https://social-plugins.line.me/lineit/share?text=${text}`, '_blank', 'width=600,height=500');
+  $('#shareModal').classList.remove('visible');
+});
+
+// X (Twitter) 共有
+$('#shareX').addEventListener('click', () => {
+  const text = encodeURIComponent(getShareSummary());
+  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'width=600,height=500');
+  $('#shareModal').classList.remove('visible');
+});
+
+// Facebook共有
+$('#shareFacebook').addEventListener('click', () => {
+  const text = encodeURIComponent(getShareSummary());
+  window.open(`https://www.facebook.com/sharer/sharer.php?quote=${text}`, '_blank', 'width=600,height=500');
+  $('#shareModal').classList.remove('visible');
+});
+
+$('#closeModal').addEventListener('click',()=>$('#shareModal').classList.remove('visible'));
+$('#shareModal').addEventListener('click',(e)=>{if(e.target===$('#shareModal'))$('#shareModal').classList.remove('visible');});
+
+// App share (spread)
+const APP_SHARE_TEXT = {
+  ja: '✈️ 旅行の持ち物チェックに便利！天気に合わせた持ち物提案もしてくれる「旅行持ち物リストメーカー」',
+  en: '✈️ Super handy for packing! "Travel Packing List Maker" even suggests items based on weather',
+  zh: '✈️ 旅行收拾行李超方便！「旅行物品清单」还能根据天气推荐物品',
+  ko: '✈️ 여행 짐 싸기에 편리! 날씨에 맞는 물건까지 추천해주는 「여행 짐 리스트」',
+};
+
+function getAppShareText() { return APP_SHARE_TEXT[currentLang] || APP_SHARE_TEXT['ja']; }
+
+$('#appShareLine').addEventListener('click', () => {
+  window.open(`https://social-plugins.line.me/lineit/share?text=${encodeURIComponent(getAppShareText())}`, '_blank', 'width=600,height=500');
+});
+$('#appShareX').addEventListener('click', () => {
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getAppShareText())}`, '_blank', 'width=600,height=500');
+});
+$('#appShareFacebook').addEventListener('click', () => {
+  window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(getAppShareText())}`, '_blank', 'width=600,height=500');
+});
+
+function getTypeName(type){return{overseas:t('overseas'),domestic:t('domestic'),business:t('business'),outdoor:t('outdoor')}[type]||type;}
+function showToast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('visible');setTimeout(()=>el.classList.remove('visible'),2500);}
+
+renderSavedLists();
+applyI18n();
+</script>
+</body>
+</html>
