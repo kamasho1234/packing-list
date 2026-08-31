@@ -130,6 +130,23 @@ for a in META:
     if "\ufffd" in h:
         errors.append("%s: 生成HTMLに文字化け" % a["slug"])
 
+# ---- 危険な数値・ブランド名のスキャン（body と faq の両方） ----
+RISKY = [
+    (re.compile(r"[0-9０-９]+\s*(℃|度[CＣ]?(?![数目])）?)"), "気温らしき数値"),
+    (re.compile(r"SPF\s*[0-9]"), "SPFの数値"),
+    (re.compile(r"[0-9０-９][0-9０-９,，]*\s*(ドル|ユーロ|ポンド|ウォン|バーツ|ペソ|ルピア|ディルハム)"), "外貨の金額"),
+    (re.compile(r"(Anker|サムソナイト|リモワ|RIMOWA|無印良品|ユニクロ|iPhone|Android|Apple\s*Pay|Google\s*Pay|VISA|Mastercard|MasterCard|JCB|AMEX|シャネル|プラダ|ビックカメラ|ヤマダ電機|Amazon|楽天)"), "ブランド名"),
+]
+for a in META:
+    for f in ("body_%s.html" % a["slug"], "faq_%s.json" % a["slug"]):
+        fp = os.path.join(GEN, f)
+        if not os.path.exists(fp):
+            continue
+        c = open(fp, encoding="utf-8").read()
+        for rx, label in RISKY:
+            for m in rx.finditer(c):
+                warns.append("%s: %s %r" % (f, label, re.sub(r"\s+", "", c[max(0, m.start()-24):m.end()+12])))
+
 print("=" * 60)
 print("検証対象: body %d / 生成HTML %d" % (len(META), built))
 print("ERROR: %d 件" % len(errors))
