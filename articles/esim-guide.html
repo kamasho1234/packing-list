@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>海外eSIMの使い方完全ガイド｜設定手順・対応機種・選び方</title>
+  <meta name="description" content="eSIMは物理カードの差し替えが不要なデジタルSIM。対応機種の確認、申し込みから開通までの6ステップ、設定で最も間違えやすいポイント、トラブルシューティング手順を完全解説。">
+  <link rel="canonical" href="https://packing-list.net/articles/esim-guide.html">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- OGP -->
+  <meta property="og:title" content="海外eSIMの使い方完全ガイド｜設定手順・対応機種・選び方">
+  <meta property="og:description" content="eSIMは物理カードの差し替えが不要なデジタルSIM。対応機種の確認、申し込みから開通までの6ステップ、設定で最も間違えやすいポイント、トラブルシューティング手順を完全解説。">
+  <meta property="og:url" content="https://packing-list.net/articles/esim-guide.html">
+  <meta property="og:image" content="https://packing-list.net/og-image.png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="旅行持ち物リストメーカー">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="海外eSIMの使い方完全ガイド｜設定手順・対応機種・選び方">
+  <meta name="twitter:description" content="eSIMは物理カードの差し替えが不要なデジタルSIM。対応機種の確認、申し込みから開通までの6ステップ、設定で最も間違えやすいポイント、トラブルシューティング手順を完全解説。">
+  <meta name="twitter:image" content="https://packing-list.net/og-image.png">
+
+  <!-- JSON-LD Article Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "海外eSIMの使い方完全ガイド｜設定手順・対応機種・選び方",
+    "description": "eSIMは物理カードの差し替えが不要なデジタルSIM。対応機種の確認、申し込みから開通までの6ステップ、設定で最も間違えやすいポイント、トラブルシューティング手順を完全解説。",
+    "url": "https://packing-list.net/articles/esim-guide.html",
+    "image": "https://packing-list.net/og-image.png",
+    "datePublished": "2026-08-31T00:00:00Z",
+    "dateModified": "2026-08-31T00:00:00Z",
+    "author": {
+      "@type": "Organization",
+      "name": "旅行持ち物リストメーカー"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "旅行持ち物リストメーカー",
+      "url": "https://packing-list.net/"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://packing-list.net/articles/esim-guide.html"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://packing-list.net/"},
+      {"@type": "ListItem", "position": 2, "name": "海外eSIMの使い方完全ガイド｜設定手順・対応機種・選び方", "item": "https://packing-list.net/articles/esim-guide.html"}
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type": "Question", "name": "eSIMはどの国で使えますか？", "acceptedAnswer": {"@type": "Answer", "text": "eSIM提供事業者によって対応国が異なります。ヨーロッパ全域、タイ・ベトナム・シンガポール等の東南アジア、アメリカ、オーストラリアなど主要地域で対応事業者があります。渡航先で対応しているか、事業者のサイトで対応国リストを確認し、未対応なら現地でのSIM購入またはWiFiルーターレンタルを検討してください。"}},
+      {"@type": "Question", "name": "eSIMは日本帰国後も使えますか？", "acceptedAnswer": {"@type": "Answer", "text": "プロファイルが有効期限内なら、いつでも切り替えて使用できます。再度渡航時に同じプロファイルを再利用できる事業者と、新規購入が必要な事業者があります。返金・再利用ルールはeSIM提供事業者によって異なるため、購入前に確認してください。"}}
+    ]
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --sand: #faf8f5;
+      --navy: #0f172a;
+      --gold: #b8860b;
+      --gray-light: #f3f0eb;
+      --gray-text: #78716c;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: var(--sand);
+      color: var(--navy);
+      line-height: 1.8;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      background-color: var(--white);
+      border-bottom: 1px solid var(--gray-light);
+      padding: 20px 0;
+      margin-bottom: 48px;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .site-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .site-title:hover {
+      color: var(--gold);
+    }
+
+    .home-link {
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    .home-link:hover {
+      color: var(--gold);
+    }
+
+    /* Article Content */
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      line-height: 1.2;
+      color: var(--navy);
+    }
+
+    .article-meta {
+      font-size: 0.85rem;
+      color: var(--gray-text);
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .intro {
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+      color: var(--navy);
+      line-height: 1.9;
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      color: var(--navy);
+      border-left: 4px solid var(--gold);
+      padding-left: 16px;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+
+    p {
+      margin-bottom: 16px;
+    }
+
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 12px;
+    }
+
+    .checklist {
+      background-color: var(--white);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 24px 0;
+      border: 1px solid var(--gray-light);
+    }
+
+    .checklist ul {
+      margin-left: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      padding: 8px 0;
+      padding-left: 28px;
+      position: relative;
+    }
+
+    .checklist li:before {
+      content: "[ ]";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .highlight {
+      background-color: #fef8e7;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--gold);
+      margin: 24px 0;
+    }
+
+    /* SNS Share */
+    .share-section {
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+
+    .share-label {
+      font-size: 0.85rem;
+      color: var(--gray-text);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .share-x {
+      background: #000;
+      color: #fff;
+    }
+
+    .share-x:hover {
+      background: #333;
+    }
+
+    .share-line {
+      background: #00B900;
+      color: #fff;
+    }
+
+    .share-line:hover {
+      background: #009900;
+    }
+
+    .share-fb {
+      background: #1877F2;
+      color: #fff;
+    }
+
+    .share-fb:hover {
+      background: #1665d8;
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      background:
+      linear-gradient(135deg, rgba(15,23,42,0.78) 0%, rgba(30,41,59,0.78) 100%),
+      url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&h=400&fit=crop&q=80') center/cover no-repeat;
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      margin: 48px 0;
+      color: white;
+    }
+
+    .cta-banner h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      border: none;
+      padding: 0;
+    }
+
+    .cta-banner p {
+      font-size: 0.95rem;
+      color: #e2e8f0;
+      margin-bottom: 28px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--gold);
+      color: white;
+      padding: 14px 40px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+
+    .cta-btn:hover {
+      background: #a07709;
+    }
+
+    /* Related Articles */
+    .related-articles {
+      margin: 48px 0;
+      padding: 32px;
+      background-color: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .related-articles h3 {
+      border: none;
+      padding: 0;
+      margin-top: 0;
+      margin-bottom: 24px;
+    }
+
+    .related-list {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .related-list li {
+      margin-bottom: 16px;
+    }
+
+    .related-list a {
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .related-list a:hover {
+      color: var(--gold);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--white);
+      border-top: 1px solid var(--gray-light);
+      padding: 32px 0;
+      margin-top: 80px;
+      text-align: center;
+      color: var(--gray-text);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      .site-title {
+        font-size: 1.2rem;
+      }
+
+      .share-buttons {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .share-btn {
+        width: 100%;
+      }
+
+      .cta-banner {
+        padding: 32px 24px;
+      }
+
+      .cta-banner h3 {
+        font-size: 1.5rem;
+      }
+    }
+
+    .article-intro {
+      font-size: 1.05rem;
+      color: var(--gray-text);
+      margin-bottom: 32px;
+      line-height: 1.9;
+    }
+    .highlight-box {
+      background-color: var(--gray-light);
+      border-left: 4px solid var(--gold);
+      padding: 20px;
+      margin: 28px 0;
+      border-radius: 8px;
+    }
+    .highlight-box strong {
+      color: var(--navy);
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 28px 0;
+      font-size: 0.95rem;
+      background: var(--white);
+      border: 1px solid var(--gray-light);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .comparison-table th {
+      background-color: var(--navy);
+      color: var(--white);
+      padding: 16px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .comparison-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    .comparison-table tbody tr:nth-child(odd) {
+      background-color: var(--gray-light);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="../" class="site-title">旅行持ち物リストメーカー</a>
+        <a href="../" class="home-link">ホーム</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+      <h1>海外eSIMの使い方完全ガイド｜設定手順・対応機種・選び方</h1>
+
+      <div class="article-meta">
+        <time datetime="2026-08-31">2026年8月31日</time> | 更新日: <time datetime="2026-08-31">2026年8月31日</time>
+      </div>
+
+      <p class="intro">海外旅行でeSIMを使うと、物理的なSIMカードを差し替える手間なく、デジタル認証で現地の回線に接続できます。申し込みから開通までの流れと、設定時に最も間違えやすいポイント、トラブルシューティングを順を追って解説します。</p>
+
+      <h2>eSIMとは何か — 物理SIM・WiFiルーターとの違い</h2>
+
+      <p>eSIM（embedded SIM）は、スマートフォンの本体に組み込まれたデジタルSIMです。従来の物理的なプラスチックカードを差し替える必要がなく、オンライン申し込み後に受け取ったQRコードをスキャンするだけでプロファイルをインストールできます。</p>
+
+      <p>eSIM、物理SIM、WiFiルーターそれぞれにメリット・デメリットがあります。次の表を参考に、旅のスタイルに最も合った方法を選んでください。</p>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>eSIM</th>
+            <th>物理SIM</th>
+            <th>WiFiルーター</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>カード差し替え</td>
+            <td>不要（デジタル認証）</td>
+            <td>必要</td>
+            <td>不要</td>
+          </tr>
+          <tr>
+            <td>申し込みから開通まで</td>
+            <td>日本出発前に完了可能</td>
+            <td>渡航先での購入・開通が一般的</td>
+            <td>事前に購入・設定</td>
+          </tr>
+          <tr>
+            <td>本体1台での複数回線</td>
+            <td>可能（デュアルSIM対応機なら同時待受可）</td>
+            <td>同時は1回線のみ</td>
+            <td>利用不可</td>
+          </tr>
+          <tr>
+            <td>テザリング対応</td>
+            <td>対応機種なら可能</td>
+            <td>通常対応</td>
+            <td>複数台同時接続可</td>
+          </tr>
+          <tr>
+            <td>設定の手軽さ</td>
+            <td>高い（QRコード読み込みのみ）</td>
+            <td>中程度（言語による差がある）</td>
+            <td>中程度（電源ON・接続が必要）</td>
+          </tr>
+          <tr>
+            <td>スマホ紛失時のリスク</td>
+            <td>本体紛失で番号も失う可能性</td>
+            <td>カード回収で番号復旧可能</td>
+            <td>影響なし</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>より詳しい比較は、<a href="./wifi-sim-comparison.html">WiFiルーターとSIMカードの徹底比較</a>をご覧ください。</p>
+
+      <h2>eSIM対応機種の確認方法</h2>
+
+      <h3>使用端末がeSIM対応か確認する</h3>
+
+      <p>すべてのスマートフォンがeSIMに対応しているわけではありません。eSIM対応状況は機種の世代だけでは判断できず、販売国やキャリア版、さらに中古端末か新品かによっても異なる場合があります。そのため、自分の端末がeSIM対応かどうかは、必ず設定アプリから実際に確認する必要があります。</p>
+
+      <p>iPhoneの場合は「設定」→「モバイル通信」を開き、「モバイル通信プラン」の項目や「eSIMを追加」という選択肢が表示されるかを確認してください。さらに「設定」→「一般」→「情報」から端末情報を見て、EID（Embedded SIM Identifier）という番号が表示されていれば、eSIM対応端末です。Androidの場合は「設定」→「ネットワークとインターネット」（または「接続」）→「SIM」の項目を確認し、「eSIMを追加」や「SIMの管理」といった選択肢が表示されるか見てください。同じく「設定」→「デバイス情報」から確認できるEIDの表示有無も、eSIM対応の判断材料になります。</p>
+
+      <p>ただし、販売国やキャリア版によってはeSIM対応がOSレベルで制限されている場合や、中古端末の場合はSIMロック解除手続きを経ていてもeSIM機能が無効化されている可能性があります。設定画面に上記の項目が表示されない場合は、キャリア（NTTドコモ、au、ソフトバンク等）や端末メーカーの公式サイトで、ご自身の端末モデルのeSIM対応状況を確認することをお勧めします。</p>
+
+      <h3>SIMロック状態を確認する</h3>
+
+      <p>日本の大手キャリア（NTTドコモ、au、ソフトバンク等）から購入したスマートフォンに、SIMロックがかかっていないかを確認する必要があります。SIMロックが残っていると、eSIMを利用できない場合があります。</p>
+
+      <p>キャリアのマイページ（My au、My Softbank、My docomoなど）にログインして、ご自身の端末のSIMロック状態を確認できます。ロックが解除されている状態、またはSIMロック解除手続きを済ませてから、eSIM申し込みを進めてください。</p>
+
+      <h3>eSIM非対応の場合の代替手段</h3>
+
+      <p>お使いの端末がeSIM非対応の場合、次の2つの方法から選べます。1つめは現地空港やコンビニで物理SIMカードを購入する方法です。この場合、事前申し込みが不要で、現地に着いてから購入・挿入できるメリットがあります。一方、空港での手続きに時間がかかることや、言語の壁がある点がデメリットです。2つめは、<a href="./day-before-departure.html">出発前の準備</a>を整えた上でWiFiルーターをレンタルする方法です。複数人で旅する場合や、確実な回線を確保したい場合に向いています。</p>
+
+      <h2>eSIM申し込みから開通までの6つのステップ</h2>
+
+      <p>eSIM利用の流れを、段階ごとに説明します。</p>
+
+      <h3>1. 対応機種とSIMロックを確認する</h3>
+
+      <p>前述のとおり、eSIM対応機種か、SIMロック解除済みかを確認してください。この確認を怠ると、プロファイルをインストール後に「使えない」という事態に陥ります。</p>
+
+      <h3>2. 渡航先・滞在日数・必要データ量から最適なプランを選ぶ</h3>
+
+      <p>eSIM提供事業者のサイトでプラン一覧を見ると、渡航先ごと、滞在日数ごと、データ量ごとに異なるプランが用意されています。「毎日地図アプリを使い、SNSもチェックしたい」という使い方であれば、通常は1日あたり1GB程度が目安です。「メールチェックやメッセージング中心」なら0.5GB以下で足りることが多いです。動画をよく見る場合や複数人のテザリングを予定している場合は、容量に余裕を持たせることをお勧めします。</p>
+
+      <p>プラン選択時に「データのみ」と「電話番号付き」の2タイプがあることに注意してください。日本の電話番号でSMS認証が必要な場面（LINEの本人確認、銀行アプリ利用時など）があれば、電話番号付きプランを選ぶ必要があります。詳しくは後述の「電話番号とSMS認証について」を参照してください。</p>
+
+      <h3>3. 出発前（日本のWiFi環境）で購入し、QRコードを受け取る</h3>
+
+      <p>eSIMのプロファイルをインストールするにはインターネット接続が必須です。そのため、出発前に日本のWiFi環境（自宅、カフェなど）から購入手続きを済ませ、メールでQRコードを受け取っておくことが鉄則です。</p>
+
+      <p>申し込み時に「開通日」を指定する場合がほとんどです。一般的には「現地到着予定日」に設定するのが基本です。早すぎるとデータを無駄に消費してしまい、遅すぎると現地到着初日に通信できません。予定通り現地に着く見込みなら、到着日を開通日に設定してください。</p>
+
+      <h3>4. 出発前にプロファイルをインストールしておく</h3>
+
+      <p>QRコード受け取り後、出発前の日本のWiFi環境でプロファイルをインストール（追加）しておくことを強くお勧めします。インストール方法はOS別に異なります。</p>
+
+      <p>iPhoneの場合、QRコードをカメラアプリで読み込むか、メール添付のリンクをタップすると、「モバイル通信プランを追加」という画面が出ます。画面の指示に従い「続ける」をタップしてインストールを完了します。Androidの場合は、設定アプリの「SIM」または「モバイル通信」メニューから「eSIMを追加」を選択し、QRコードをスキャンしてインストールします。</p>
+
+      <p>インストール直後は、プロファイルが有効化されるかもしれません。その場合は、設定画面でeSIMの電話番号や名前を確認し、日本で使用中の回線（物理SIM）に切り替えておきます。詳しくは次のステップで説明します。</p>
+
+      <h3>5. 現地到着後、回線をeSIMに切り替える</h3>
+
+      <p>現地に着いたら、利用する回線をeSIMに切り替えます。Appleデバイスの場合、コントロールセンターの「モバイル通信」メニューを開くと、登録されているSIM（物理SIM、eSIM）の一覧が表示されます。そこから現地のeSIMを選択するだけです。Androidの場合は、設定アプリの「SIM」メニューから、利用する回線を選択します。</p>
+
+      <p>この時点で自動的にデータローミングがオンに切り替わっていないか、確認も必須です。詳しくは次の章を参照してください。</p>
+
+      <h3>6. 通信できるか確認し、トラブル時は対応する</h3>
+
+      <p>eSIMに切り替えた直後、スマートフォンの画面上に電波強度が表示されているか、LTE・4G・5Gなどの通信方式が表示されているか確認してください。WebサイトにアクセスできるかSNSを開いてみるなど、軽く動作確認することをお勧めします。</p>
+
+      <p>この段階で通信できなければ、後述の「トラブルシューティング」の手順に従い、APN設定やモバイルデータ通信の有効化などを確認してください。</p>
+
+      <h2>eSIM設定で最も間違えやすいこと</h2>
+
+      <div class="highlight-box">
+        <strong>日本の回線をオフに、eSIMをデータ通信の対象にする</strong><br>
+        最も多い失敗パターンは、日本の物理SIMが「モバイルデータ通信を使用する回線」として有効なまま、eSIMをインストール・切り替えてしまうケースです。この状態では、スマートフォンが日本の携帯キャリアへのローミング接続を試みて、高額な国際ローミング料金が発生する可能性があります。
+      </div>
+
+      <p>eSIMに切り替える際の手順をまとめます。</p>
+
+      <p><strong>【iPhoneの場合】</strong>設定アプリを開き、「モバイル通信」→「モバイル通信プラン」を選択します。画面に登録されているプロファイル（日本の回線とeSIM）が表示されるので、利用する回線を選択します。次に、「デフォルト」の項目で「モバイルデータ通信」「音声通話」「SMS」のそれぞれを、eSIMに紐付けられた電話番号に切り替えます。これを忘れると、日本の回線経由でのローミング接続が続いてしまいます。</p>
+
+      <p><strong>【Androidの場合】</strong>設定アプリの「ネットワークとインターネット」→「SIM」（または「モバイル通信」）を選択し、利用する回線を有効にします。その後、「モバイルデータ」の設定で、データ通信に使うSIM（eSIM）を明示的に指定するステップが必要な機種が多くあります。設定画面のメニュー構成は機種やAndroidバージョンによって異なりますが、「データ通信に使用するSIM」という項目があれば、そこでeSIMを選択してください。</p>
+
+      <p>データローミングの設定も重要です。eSIM利用時、データローミングがオンになっていることを確認してください。eSIMはもともと渡航先での利用を前提としているため、データローミング有効化は通常必須です。もしオフのままだと、国内のローミングネットワークに接続できず、通信できません。</p>
+
+      <h2>通信できないときのトラブルシューティング</h2>
+
+      <p>eSIM切り替え後、通信できないトラブルに遭った場合は、次の項目を順番に確認してください。</p>
+
+      <div class="checklist">
+        <ul>
+          <li>eSIMがインストール済みか、設定アプリの「モバイル通信」メニューで確認する</li>
+          <li>eSIMが有効（アクティブ）に切り替わっているか確認。iPhone・Androidともに、設定画面に複数のプロファイルが表示される場合、選択状態（チェックマーク等）を確認</li>
+          <li>データローミングがオンになっているか、設定の「モバイル通信」→「モバイルデータ通信」（またはAndroidの場合「データローミング」）で確認</li>
+          <li>モバイルデータ通信の項目で、データ通信に使う回線がeSIMに設定されているか確認。iPhone の「デフォルト」、Androidの「モバイルデータ」を確認</li>
+          <li>APNが自動設定されていなければ、eSIM事業者から指定されたAPNを手動で入力する。Android機種によっては必須の場合があり、APN設定画面から新規追加する手順が必要</li>
+          <li>eSIM事業者のカスタマーサポート（チャット、メール、電話）に問い合わせ。多くの場合、対応時間内なら数時間以内に返答がある</li>
+        </ul>
+      </div>
+
+      <p>APN手動設定については、eSIM提供事業者のホームページにAndroid向け設定手順が記載されていることがほとんどです。事前に購入時のメールや提供元のサイトで確認し、渡航前に設定を済ませておくと、現地でのトラブルを防げます。</p>
+
+      <h2>eSIMのデータ量選び方の考え方</h2>
+
+      <p>eSIMを購入する際、どのくらいのデータ量を選ぶかは、旅のスタイルによって大きく変わります。具体的な単価は時々変動するため、ここでは選び方の軸を説明します。</p>
+
+      <p><strong>ライトユーザー（0.5～1GB）</strong>は、メール、メッセージング、テキストベースのSNS閲覧が中心の人向けです。写真のアップロードや軽いWeb閲覧は問題ありませんが、動画ストリーミングは避けたほうが無難です。</p>
+
+      <p><strong>スタンダードユーザー（1～3GB）</strong>は、毎日地図アプリで目的地を検索し、SNSに写真をアップロードし、少しYouTubeを見るという、平均的な旅のスタイル向けです。大多数の旅行者はこのレンジで足りることが多いです。</p>
+
+      <p><strong>ヘビーユーザー（3GB以上）</strong>は、動画ストリーミング（NetflixやYouTube）をよく利用する、複数人のテザリングを提供する、または滞在期間が長い場合が対象です。</p>
+
+      <p>万が一データ容量を超過してしまった場合、eSIM事業者によっては追加容量を購入できるプランも用意されています。事前に「超過時の対応」を調べておくと、現地でのストレスが減ります。</p>
+
+      <h2>電話番号とSMS認証について</h2>
+
+      <p>eSIMのプランには「データ通信のみ」と「電話番号付き」の2種類があります。見分け方は、eSIM提供事業者のプラン一覧で「SMSが使える」「音声通話が使える」といった説明があるかを確認することです。</p>
+
+      <p>「電話番号付き」のメリットは、eSIMで割り当てられた電話番号が利用でき、SMS受信ができるという点です。LINEの本人確認、Googleアカウントの二段階認証、銀行アプリの登録変更時などに、SMS受け取りが必須の場面があります。日本の電話番号で登録されたサービスを海外で使用する場合、SMSが必要になることが少なくありません。</p>
+
+      <p>一方、「データ通信のみ」プランは、通常、電話番号は割り当てられず、SMSも受信できません。ただし、通話やSMSの必要性を事前に判断できれば、より廉価なプランで済みます。SNS・メッセージング・地図といった基本的な用途なら、データ通信のみで問題ありません。</p>
+
+      <p>滞在中に日本への電話が必要な場合、eSIMの電話番号ではなく、WhatsAppやLINEの音声通話を使う方法が一般的です。eSIM各社は日本への通話料金を明記していることが多いため、事前に確認してください。</p>
+
+      <h2>複数人での利用とテザリング</h2>
+
+      <p>複数人で旅する場合、1台のスマートフォン（eSIM利用者）がテザリングで他の人のデバイスを接続することで、eSIM1契約で複数台をまかなえます。ただし、テザリングがデータ容量を消費するスピードは想像より速いため、事前に容量に余裕を持たせることが重要です。</p>
+
+      <p>また、すべてのeSIMがテザリングに対応しているわけではありません。購入時に「テザリング対応」と明記されているか、事前に確認してください。テザリング非対応プランの場合、複数人の同時利用ができないため注意が必要です。</p>
+
+      <p>テザリングの設定は、通常のスマートフォンと同じです。iPhoneの場合、設定アプリの「インターネット共有」をオンにすればWiFi経由で他のデバイスから接続できます。Androidの場合も、設定アプリの「テザリング」（機種によって「ポータブルWiFiスポット」等と表記）をオンにしてください。ただし、バッテリーの消費が速くなるため、<a href="./travel-gadgets-airtag.html">モバイルバッテリーを持参する</a>ことをお勧めします。</p>
+
+      <h2>出発前チェックリスト</h2>
+
+      <p>eSIM利用を決めたら、出発前に以下の項目を確認しておくと、現地での不安が減ります。</p>
+
+      <div class="checklist">
+        <ul>
+          <li>使用するスマートフォンがeSIM対応機種か、キャリアの公式サイトで確認済み</li>
+          <li>SIMロック解除手続きが完了している（必要に応じて）</li>
+          <li>eSIMプランの申し込み・購入を日本のWiFi環境から済ませている</li>
+          <li>プロファイルのインストールが出発前に完了している</li>
+          <li>eSIM提供事業者から、QRコードや設定手順のメール受け取りを確認している</li>
+          <li>現地到着時のプロファイル切り替え手順を事前に確認（iPhone/Android別）</li>
+          <li>データ容量の選択が旅のスタイルに合致しているか見直し</li>
+          <li>電話番号が必要な場合は「電話番号付き」プランを選択した</li>
+          <li>テザリング利用の有無を確認し、必要ならテザリング対応プランを選択</li>
+          <li>eSIM事業者のカスタマーサポート連絡先（メール、チャット、電話）を控えておく</li>
+          <li>APNの手動設定が必要な場合、Android向け設定手順をスクリーンショットで保存</li>
+        </ul>
+      </div>
+
+      <p>これらの項目を確認しておけば、現地でのトラブルが大幅に減ります。特に、プロファイルのインストールと回線切り替え手順の確認は、出発前に実施することで、現地到着時に焦らず対応できます。</p>
+
+      <h2>よくある質問</h2>
+
+      <h3>eSIMはどの国で使えますか</h3>
+
+      <p>eSIM提供事業者によって対応国が異なります。主な対応地域としては、ヨーロッパ全域、東南アジア（タイ、ベトナム、シンガポール、マレーシア等）、アメリカ、オーストラリア等が挙げられます。<a href="./korea-packing-list.html">韓国</a>、<a href="./thailand-packing-list.html">タイ</a>、<a href="./singapore-packing-list.html">シンガポール</a>などの人気渡航地も対応事業者が複数あります。渡航先で対応しているかは、事業者のサイトで対応国リストを確認してください。対応していない国の場合は、現地で物理SIMを購入するか、<a href="./first-overseas-trip-prep.html">初めての海外旅行の準備ガイド</a>を参考にしながらWiFiルーターをレンタルする選択肢が残ります。</p>
+
+      <h3>eSIMは日本帰国後も使えますか</h3>
+
+      <p>eSIMのプロファイルは、プランの有効期限内であればいつでも切り替えて使用できます。日本帰国後、再度海外へ渡航する際に同じプロファイルを再度有効化できる事業者もあり、別の事業者のプロファイルを新規追加する事業者もあります。eSIM提供事業者の返金・再利用ルールを事前に確認してください。</p>
+
+      <h3>eSIMをインストール後、同じプロファイルを複数のスマートフォンで使用できますか</h3>
+
+      <p>通常、1つのeSimプロファイルは1台の端末にしかインストールできません。複数台のスマートフォンで同時利用したい場合は、台数分のeSIMプランを別々に購入する必要があります。ただし、テザリング機能を活用すれば、1つのeSIM契約で複数台をカバーできるため、その点も事前に検討してください。</p>
+
+      <h3>eSIM購入後、キャンセルや返金はできますか</h3>
+
+      <p>eSIM提供事業者によってキャンセルポリシーが異なります。一度プロファイルがインストール・有効化されると、返金不可の場合が多いです。一方、購入直後で未インストール状態なら、特定期間内は返金可能という事業者も存在します。購入時の約款を確認し、返金条件を理解した上で購入手続きを進めてください。</p>
+
+      <div class="cta-banner">
+        <h3>旅行の持ち物を自動リスト化</h3>
+        <p>行き先と日数を入力するだけで、eSIM購入の他に必要な持ち物が自動で提案されます。</p>
+        <a href="../" class="cta-btn">旅行持ち物リストを無料で作る</a>
+      </div>
+
+      <div class="share-section">
+        <p class="share-label">この記事をシェアする</p>
+        <div class="share-buttons">
+          <a href="https://twitter.com/intent/tweet?text=%E6%B5%B7%E5%A4%96eSIM%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E5%AE%8C%E5%85%A8%E3%82%AC%E3%82%A4%E3%83%89%EF%BD%9C%E8%A8%AD%E5%AE%9A%E6%89%8B%E9%A0%86%E3%83%BB%E5%AF%BE%E5%BF%9C%E6%A9%9F%E7%A8%AE%E3%83%BB%E9%81%B8%E3%81%B3%E6%96%B9&url=https%3A%2F%2Fpacking-list.net%2Farticles%2Fesim-guide.html" target="_blank" rel="noopener" class="share-btn share-x">X（Twitter）</a>
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fpacking-list.net%2Farticles%2Fesim-guide.html" target="_blank" rel="noopener" class="share-btn share-line">LINE</a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpacking-list.net%2Farticles%2Fesim-guide.html" target="_blank" rel="noopener" class="share-btn share-fb">Facebook</a>
+        </div>
+      </div>
+
+      <div class="related-articles">
+        <h3>関連記事</h3>
+        <ul class="related-list">
+          <li><a href="./wifi-sim-comparison.html">海外WiFiルーター vs SIMカード徹底比較｜どちらがお得か完全解説</a></li>
+          <li><a href="./travel-gadgets-airtag.html">海外旅行のガジェット完全ガイド｜AirTag・パソコン・モバイルバッテリー</a></li>
+          <li><a href="./first-overseas-trip-prep.html">初めての海外旅行 準備リスト｜3か月前からの完全スケジュール</a></li>
+        </ul>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024-2026 packing-list.net All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
