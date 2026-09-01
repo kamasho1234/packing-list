@@ -88,7 +88,7 @@ for a in META:
 
     # 外部リンク
     for u in re.findall(r'href="(https?://[^"]+)"', body):
-        if not re.match(r"https://(www\.)?(mlit|mhlw|customs|ncd\.mhlw)\.go\.jp|https://tdac\.immigration\.go\.th|https://www\.ica\.gov\.sg|https://www\.hsa\.gov\.sg|https://overseas\.mofa\.go\.kr|https://www\.vn\.emb-japan\.go\.jp|https://www\.anzen\.mofa\.go\.jp|https://esta\.cbp\.dhs\.gov|https://www\.cbp\.gov", u):
+        if not re.match(r"https://(www\.)?(mlit|mhlw|customs|ncd\.mhlw|mofa|npa|maff|forth)\.go\.jp|https://tdac\.immigration\.go\.th|https://www\.ica\.gov\.sg|https://www\.hsa\.gov\.sg|https://overseas\.mofa\.go\.kr|https://www\.vn\.emb-japan\.go\.jp|https://www\.anzen\.mofa\.go\.jp|https://www\.ezairyu\.mofa\.go\.jp|https://esta\.cbp\.dhs\.gov|https://www\.cbp\.gov|https://www\.federalregister\.gov|https://home-affairs\.ec\.europa\.eu", u):
             warns.append("%s: 想定外の外部リンク %s" % (slug, u))
     for m in re.finditer(r'<a href="https?://[^"]+"([^>]*)>', body):
         if 'rel="noopener"' not in m.group(1):

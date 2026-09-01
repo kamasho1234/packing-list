@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""index.html の記事一覧と sitemap.xml に新規20本を追加する（冪等）"""
+"""index.html の記事一覧と sitemap.xml に新規記事を追加する（冪等）"""
 import json, os, re
 
 GEN = os.path.dirname(os.path.abspath(__file__))
 SITE = r"C:\Users\kamas\projects\webapps\travel-packing-list"
 BASE = "https://packing-list.net"
 META = json.load(open(os.path.join(GEN, "meta.json"), encoding="utf-8"))
-DATE = "2026-08-31"
+DATE = "2026-09-01"
 
 
 def esc(s):
