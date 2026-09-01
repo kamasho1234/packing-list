@@ -10,6 +10,8 @@ facts = io.open(os.path.join(GEN, "FACTS.md"), encoding="utf-8").read()
 facts_nums = set(re.findall(r"[0-9][0-9,\.]*", facts))
 meta = json.load(open(os.path.join(GEN, "meta.json"), encoding="utf-8"))
 slugs = [a["slug"] for a in meta]
+ART = r"C:/Users/kamas/projects/webapps/travel-packing-list/articles"
+ALL_SLUGS = {os.path.basename(x)[:-5] for x in glob.glob(ART + "/*.html")} | set(slugs)
 # 差別化の軸が本文に現れているかを見るためのキーワード（国内12本）
 AXIS = {
     "tokyo-trip": ["乗り換え", "歩"], "osaka-trip": ["食べ歩き"], "fukuoka-trip": ["屋台"],
@@ -59,6 +61,21 @@ for s in slugs:
     links = re.findall(r'href="\./([a-z0-9\-]+)\.html"', raw)
     if not (5 <= len(links) <= 8):
         struct_ng.append((s, "内部リンク %d 本（5〜8本にする）" % len(links)))
+    if len(links) != len(set(links)):
+        d = sorted({x for x in links if links.count(x) > 1})
+        struct_ng.append((s, "同じリンク先が重複 %s" % d))
+    # 壊れたリンク書式（第4弾で6記事分が全滅した）
+    for bad, why in ((r'href="\.[a-z0-9\-]+\.html"', 'スラッシュ欠落 ".slug.html"'),
+                     (r'href="\./[a-z0-9\-]+"(?!\.html)', '.html 欠落 "./slug"'),
+                     (r'href="[a-z0-9\-]+\.html"', './ 欠落 "slug.html"')):
+        for m in re.finditer(bad, raw):
+            struct_ng.append((s, "リンク書式が不正（%s）: %s" % (why, m.group(0))))
+    # 死リンク
+    for l in set(links):
+        if l not in ALL_SLUGS:
+            struct_ng.append((s, "死リンク ./%s.html" % l))
+        if l == s:
+            struct_ng.append((s, "自分自身へのリンク"))
 
     if s in AXIS and not any(k in t for k in AXIS[s]):
         axis_ng.append((s, "差別化の軸のキーワードが本文に無い: %s" % AXIS[s]))
